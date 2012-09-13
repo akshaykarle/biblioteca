@@ -14,6 +14,6 @@ public class BibliotecaTest {
     @Test
     public void ShouldHandleInvalidOptions() {
         Biblioteca biblioteca = new Biblioteca();
-        Assert.assertEquals(-1, biblioteca.selectOption(-1));
+        Assert.assertEquals(0, biblioteca.selectOption(-1));
     }
 }

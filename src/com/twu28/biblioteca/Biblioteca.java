@@ -11,12 +11,13 @@ import java.io.InputStreamReader;
  * Time: 3:00 PM
  * To change this template use File | Settings | File Templates.
  */
-public class Biblioteca {
+class Biblioteca {
     public void displayMenu() {
         System.out.print("Please select one of the following options:" +
                 "1. View All Books.\n" +
                 "2. Reserve a book.\n" +
                 "3. Check Library Card Number.\n" +
+                "4. Exit." +
                 "Please select your option: ");
     }
 
@@ -29,18 +30,25 @@ public class Biblioteca {
         int option = 0;
         do {
             option = Integer.parseInt(bufferedReader.readLine());
-            selectOption(option);
-        }while(option <= 3);
+            option  = selectOption(option);
+        }while(option == 0);
     }
 
-    protected int selectOption(int option) {
+    int selectOption(int option) {
         if(option == 1)
             return 1;
         else if(option == 2)
             return 2;
         else if(option == 3)
             return 3;
-        else
-            return -1;
+        else if(option == 4) {
+            System.exit(0);
+            return 4;
+        }
+        else {
+            System.out.println("Select a valid option!!");
+            displayMenu();
+            return 0;
+        }
     }
 }

@@ -13,7 +13,7 @@ import java.io.InputStreamReader;
  */
 class Biblioteca {
     public void displayMenu() {
-        System.out.print("Please select one of the following options:" +
+        System.out.print("Menu:" +
                 "1. View All Books.\n" +
                 "2. Reserve a book.\n" +
                 "3. Check Library Card Number.\n" +
@@ -37,11 +37,11 @@ class Biblioteca {
     int selectOption(int option) {
         if(option == 1)
             return 1;
-        else if(option == 2)
+        if(option == 2)
             return 2;
-        else if(option == 3)
+        if(option == 3)
             return 3;
-        else if(option == 4) {
+        if(option == 4) {
             System.exit(0);
             return 4;
         }
@@ -50,5 +50,10 @@ class Biblioteca {
             displayMenu();
             return 0;
         }
+    }
+
+    private void displayAllBooks() {
+        for(int i = 0; i < numOfBooks; i++)
+            books[i].display();
     }
 }

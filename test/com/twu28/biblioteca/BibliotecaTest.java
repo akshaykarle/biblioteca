@@ -61,13 +61,6 @@ public class BibliotecaTest {
         assertTrue(outContent.toString().contains(""));
     }
 
-    /*@Test
-    public void ShouldDisplayMenuUntilExit() {
-        biblioteca.selectOption(1);
-        biblioteca.selectOption(2);
-        assertTrue(outContent.toString().contains("Bye!"));
-    }*/
-
     @Test
     public void ShouldHandleInvalidOptions() throws IOException {
         assertEquals(0, biblioteca.selectOption(-1));

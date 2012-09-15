@@ -16,9 +16,13 @@ class Biblioteca {
     private Book books[] = new Book [100];
 
     public Biblioteca seedData() {
-        numOfBooks = 1;
         books[0] = new Book();
         books[0] = books[0].seedData();
+        books[1] = new Book();
+        books[1].name = "bar";
+        books[1].totalCopies = 4;
+        books[1].reserved = 0;
+        numOfBooks = 2;
         return this;
     }
 
@@ -53,7 +57,7 @@ class Biblioteca {
     int selectOption(int option) throws IOException{
         if(option == 1) {
             displayAllBooks();
-            return 11;
+            return 1;
         }
         if(option == 2) {
             findAndReserveBook();
@@ -80,7 +84,7 @@ class Biblioteca {
     }
 
     void findAndReserveBook() throws IOException{
-        Book book = null;
+        Book book;
         book = findBook();
         if(book == null)
             System.out.println("Book not found!");
@@ -99,7 +103,8 @@ class Biblioteca {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         System.out.print("Enter the name of book: ");
         String name = bufferedReader.readLine();
-        return findBookByName(name);
+        Book book = findBookByName(name);
+        return book;
     }
 
     Book findBookByName(String name) {

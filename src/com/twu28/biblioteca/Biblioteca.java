@@ -4,13 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-/**
- * Created with IntelliJ IDEA.
- * User: akshay
- * Date: 11/09/12
- * Time: 3:00 PM
- * To change this template use File | Settings | File Templates.
- */
 class Biblioteca {
     int numOfBooks = 0;
     private Book books[] = new Book [100];
@@ -119,5 +112,12 @@ class Biblioteca {
 
     void checkCardNumber() {
         System.out.println("Please talk to Librarian. Thank you.");
+    }
+
+    public static void main(String args[]) throws IOException {
+        Biblioteca biblioteca = new Biblioteca();
+        biblioteca.seedData();
+        biblioteca.displayWelcome();
+        biblioteca.enterOption();
     }
 }

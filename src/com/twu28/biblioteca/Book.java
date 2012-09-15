@@ -1,12 +1,5 @@
 package com.twu28.biblioteca;
 
-/**
- * Created with IntelliJ IDEA.
- * User: akshay
- * Date: 11/09/12
- * Time: 2:50 PM
- * To change this template use File | Settings | File Templates.
- */
 class Book {
     String name, author, publisher;
     int id, totalCopies, reserved;

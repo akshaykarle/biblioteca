@@ -14,13 +14,6 @@ import static org.easymock.EasyMock.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-/**
- * Created with IntelliJ IDEA.
- * User: akshay
- * Date: 13/09/12
- * Time: 10:22 PM
- * To change this template use File | Settings | File Templates.
- */
 public class BibliotecaTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
@@ -28,25 +21,19 @@ public class BibliotecaTest {
     private Book bookMock;
 
     @Before
-    public void setUpStreams() {
+    public void setUp() {
         System.setOut(new PrintStream(outContent));
         System.setErr(new PrintStream(errContent));
-    }
-
-    @Before
-    public void setupBiblioteca() {
         biblioteca = new Biblioteca();
+        bookMock = createMock(Book.class);
     }
 
     @After
     public void cleanUpStreams() {
         System.setOut(null);
         System.setErr(null);
-    }
-
-    @After
-    public void cleanUpBiblioteca() {
-       biblioteca = null;
+        biblioteca = null;
+        bookMock = null;
     }
 
     @Test
@@ -65,11 +52,6 @@ public class BibliotecaTest {
     public void ShouldHandleInvalidOptions() throws IOException {
         assertEquals(0, biblioteca.selectOption(-1));
         assertTrue(outContent.toString().contains("Select a valid option!!"));
-    }
-
-    @Before
-    public void setUpBookMock() {
-        bookMock = createMock(Book.class);
     }
 
     @Test

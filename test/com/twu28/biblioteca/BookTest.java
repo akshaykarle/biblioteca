@@ -8,13 +8,6 @@ import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-/**
- * Created with IntelliJ IDEA.
- * User: akshay
- * Date: 15/09/12
- * Time: 2:55 PM
- * To change this template use File | Settings | File Templates.
- */
 public class BookTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();

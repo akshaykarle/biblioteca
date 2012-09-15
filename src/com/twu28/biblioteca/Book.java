@@ -27,6 +27,11 @@ class Book {
     }
 
     public boolean reserve() {
-        return false;  //To change body of created methods use File | Settings | File Templates.
+        if((totalCopies - reserved) > 0) {
+            reserved++;
+            return true;
+        }
+        else
+            return false;
     }
 }

@@ -12,12 +12,27 @@ import java.io.InputStreamReader;
  * To change this template use File | Settings | File Templates.
  */
 class Biblioteca {
+    int numOfBooks = 0;
+    private Book books[] = new Book [100];
+
+    public Biblioteca seedData() {
+        numOfBooks = 1;
+        books[0] = new Book();
+        books[0] = books[0].seedData();
+        return this;
+    }
+
+    public void setBooks(Book[] bks) {
+        books = bks;
+        numOfBooks = bks.length;
+    }
+
     public void displayMenu() {
-        System.out.print("Menu:" +
+        System.out.print("\nMenu:\n" +
                 "1. View All Books.\n" +
                 "2. Reserve a book.\n" +
                 "3. Check Library Card Number.\n" +
-                "4. Exit." +
+                "4. Exit.\n" +
                 "Please select your option: ");
     }
 
@@ -29,31 +44,69 @@ class Biblioteca {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         int option = 0;
         do {
+            displayMenu();
             option = Integer.parseInt(bufferedReader.readLine());
             option  = selectOption(option);
-        }while(option == 0);
+        }while(option >= 0);
     }
 
-    int selectOption(int option) {
-        if(option == 1)
-            return 1;
-        if(option == 2)
+    int selectOption(int option) throws IOException{
+        if(option == 1) {
+            displayAllBooks();
+            return 11;
+        }
+        if(option == 2) {
+            findAndReserveBook();
             return 2;
+        }
         if(option == 3)
             return 3;
         if(option == 4) {
+            System.out.print("Bye!");
             System.exit(0);
-            return 4;
         }
-        else {
-            System.out.println("Select a valid option!!");
-            displayMenu();
-            return 0;
-        }
+        System.out.println("Select a valid option!!");
+        return 0;
     }
 
     private void displayAllBooks() {
+        if(numOfBooks == 0) {
+            System.out.println("No books present in Biblioteca!!");
+            return;
+        }
+        System.out.println("\nBiblioteca contains the following books:");
         for(int i = 0; i < numOfBooks; i++)
             books[i].display();
+    }
+
+    void findAndReserveBook() throws IOException{
+        Book book = null;
+        book = findBook();
+        if(book == null)
+            System.out.println("Book not found!");
+        else
+            reserveBook(book);
+    }
+
+    void reserveBook(Book book) {
+        if(book.reserve())
+            System.out.println("Thank You! Enjoy the book.");
+        else
+            System.out.println("Sorry we don't have that book yet.");
+    }
+
+    private Book findBook() throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        System.out.print("Enter the name of book: ");
+        String name = bufferedReader.readLine();
+        return findBookByName(name);
+    }
+
+    Book findBookByName(String name) {
+        for(int i = 0; i < numOfBooks; i++) {
+            if(books[i].name.equalsIgnoreCase(name))
+                return books[i];
+        }
+        return null;
     }
 }

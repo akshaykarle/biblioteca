@@ -10,10 +10,11 @@ import java.io.IOException;
  * To change this template use File | Settings | File Templates.
  */
 public class BibliotecaLauncher {
+    Book[] bk;
     public static void main(String args[]) throws IOException {
         Biblioteca biblioteca = new Biblioteca();
+        biblioteca.seedData();
         biblioteca.displayWelcome();
-        biblioteca.displayMenu();
         biblioteca.enterOption();
     }
 

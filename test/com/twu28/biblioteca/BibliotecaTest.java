@@ -111,4 +111,10 @@ public class BibliotecaTest {
         assertTrue(outContent.toString().contains("Sorry we don't have that book yet."));
         verify(bookMock);
     }
+
+    @Test
+    public void ShouldSendErrorMessageOncheckCardNumber() {
+        biblioteca.checkCardNumber();
+        assertTrue(outContent.toString().contains("Please talk to Librarian. Thank you."));
+    }
 }

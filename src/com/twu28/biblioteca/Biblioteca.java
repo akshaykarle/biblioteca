@@ -63,8 +63,10 @@ class Biblioteca {
             findAndReserveBook();
             return 2;
         }
-        if(option == 3)
+        if(option == 3) {
+            checkCardNumber();
             return 3;
+        }
         if(option == 4) {
             System.out.print("Bye!");
             System.exit(0);
@@ -113,5 +115,9 @@ class Biblioteca {
                 return books[i];
         }
         return null;
+    }
+
+    void checkCardNumber() {
+        System.out.println("Please talk to Librarian. Thank you.");
     }
 }

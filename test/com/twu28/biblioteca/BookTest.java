@@ -38,14 +38,14 @@ public class BookTest {
     }
 
     @Test
-    public void isReservedShouldReturnTrueIfBookIsReserved() {
-        book.setReserve(true);
-        Assert.assertTrue(book.isReserved());
+    public void isNotReservedShouldReturnTrueIfBookIsNotReserved() {
+        book.setReserve(false);
+        Assert.assertTrue(book.isNotReserved());
     }
 
     @Test
-    public void isReservedShouldReturnFalseIfBookIsNotReserved() {
-        book.setReserve(false);
-        Assert.assertFalse(book.isReserved());
+    public void isNotReservedShouldReturnFalseIfBookIsNotReserved() {
+        book.setReserve(true);
+        Assert.assertFalse(book.isNotReserved());
     }
 }

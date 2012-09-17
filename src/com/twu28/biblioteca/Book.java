@@ -24,7 +24,7 @@ class Book {
         reserved = reserve;
     }
 
-    public boolean isReserved() {
-        return reserved;
+    public boolean isNotReserved() {
+        return !reserved;
     }
 }

@@ -113,11 +113,4 @@ class Biblioteca {
     void checkCardNumber() {
         System.out.println("Please talk to Librarian. Thank you.");
     }
-
-    public static void main(String args[]) throws IOException {
-        Biblioteca biblioteca = new Biblioteca();
-        biblioteca.seedData();
-        biblioteca.displayWelcome();
-        biblioteca.enterOption();
-    }
 }

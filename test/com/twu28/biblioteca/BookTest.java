@@ -32,39 +32,20 @@ public class BookTest {
         book = book.seedData();
         book.display();
         Assert.assertTrue(outContent.toString().contains(String.valueOf(book.id)));
-        Assert.assertTrue(outContent.toString().contains(String.valueOf(book.totalCopies)));
         Assert.assertTrue(outContent.toString().contains(String.valueOf(book.author)));
         Assert.assertTrue(outContent.toString().contains(String.valueOf(book.name)));
         Assert.assertTrue(outContent.toString().contains(String.valueOf(book.publisher)));
     }
 
     @Test
-    public void ShouldReserveIfAvailable() {
-        book.totalCopies = 1;
-        book.reserved = 0;
-        Assert.assertTrue(book.reserve());
+    public void isReservedShouldReturnTrueIfBookIsReserved() {
+        book.setReserve(true);
+        Assert.assertTrue(book.isReserved());
     }
 
     @Test
-    public void ShouldNotReserveIfNotAvailable() {
-        book.totalCopies = 1;
-        book.reserved = 1;
-        Assert.assertFalse(book.reserve());
-    }
-
-    @Test
-    public void ReserveShouldReduceNumberOfAvailableBooksIfSuccess() {
-        book.totalCopies = 1;
-        book.reserved = 0;
-        book.reserve();
-        Assert.assertEquals(1, book.reserved);
-    }
-
-    @Test
-    public void ReserveShouldNotReduceNumberOfAvailableBooksIfFailure() {
-        book.totalCopies = 1;
-        book.reserved = 1;
-        book.reserve();
-        Assert.assertEquals(1, book.reserved);
+    public void isReservedShouldReturnFalseIfBookIsNotReserved() {
+        book.setReserve(false);
+        Assert.assertFalse(book.isReserved());
     }
 }

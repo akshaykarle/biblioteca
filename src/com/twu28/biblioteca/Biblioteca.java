@@ -13,8 +13,7 @@ class Biblioteca {
         books[0] = books[0].seedData();
         books[1] = new Book();
         books[1].name = "bar";
-        books[1].totalCopies = 4;
-        books[1].reserved = 0;
+        books[1].reserved = true;
         numOfBooks = 2;
         return this;
     }
@@ -88,10 +87,12 @@ class Biblioteca {
     }
 
     void reserveBook(Book book) {
-        if(book.reserve())
-            System.out.println("Thank You! Enjoy the book.");
-        else
+        if(book.isReserved())
             System.out.println("Sorry we don't have that book yet.");
+        else {
+            book.setReserve(true);
+            System.out.println("Thank You! Enjoy the book.");
+        }
     }
 
     private Book findBook() throws IOException {

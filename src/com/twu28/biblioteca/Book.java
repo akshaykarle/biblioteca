@@ -2,10 +2,12 @@ package com.twu28.biblioteca;
 
 class Book {
     String name, author, publisher;
-    int id, totalCopies, reserved;
+    int id;
+    boolean reserved = false;
 
     public Book seedData() {
-        id = reserved = totalCopies = 1;
+        id = 1;
+        reserved = false;
         name = author = publisher = "foo";
         return this;
     }
@@ -15,16 +17,14 @@ class Book {
         System.out.println("ID: " +  id);
         System.out.println("Author: " + author);
         System.out.println("Publisher: " + publisher);
-        System.out.println("Total number of copies: " + totalCopies);
-        System.out.println("Number of copies reserved: " + reserved);
+        System.out.println("Reserved?: " + reserved);
     }
 
-    public boolean reserve() {
-        if((totalCopies - reserved) > 0) {
-            reserved++;
-            return true;
-        }
-        else
-            return false;
+    public void setReserve(boolean reserve) {
+        reserved = reserve;
+    }
+
+    public boolean isReserved() {
+        return reserved;
     }
 }

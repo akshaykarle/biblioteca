@@ -78,7 +78,8 @@ public class BibliotecaTest {
 
     @Test
     public void ShouldReserveBookWithSuccess() throws IOException {
-        expect(bookMock.reserve()).andReturn(true);
+        expect(bookMock.isReserved()).andReturn(false);
+        bookMock.setReserve(true);
         replay(bookMock);
         biblioteca.reserveBook(bookMock);
         assertTrue(outContent.toString().contains("Thank You! Enjoy the book."));
@@ -87,7 +88,7 @@ public class BibliotecaTest {
 
     @Test
     public void ShouldReserveBookWithFailure() throws IOException {
-        expect(bookMock.reserve()).andReturn(false);
+        expect(bookMock.isReserved()).andReturn(true);
         replay(bookMock);
         biblioteca.reserveBook(bookMock);
         assertTrue(outContent.toString().contains("Sorry we don't have that book yet."));

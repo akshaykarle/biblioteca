@@ -14,7 +14,10 @@ class Biblioteca {
         books[1] = new Book();
         books[1].name = "bar";
         books[1].reserved = true;
-        numOfBooks = 2;
+        books[2] = new Book();
+        books[2].name = "bar";
+        books[2].reserved = false;
+        numOfBooks = 3;
         return this;
     }
 

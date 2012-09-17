@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 
 import static org.easymock.EasyMock.*;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -18,14 +19,19 @@ public class BibliotecaTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
     private Biblioteca biblioteca;
-    private Book bookMock;
+    private Book bookMock1, bookMock2;
+    private Book[] bookMockArr;
 
     @Before
     public void setUp() {
         System.setOut(new PrintStream(outContent));
         System.setErr(new PrintStream(errContent));
         biblioteca = new Biblioteca();
-        bookMock = createMock(Book.class);
+        bookMock1 = createMock(Book.class);
+        bookMock2 = createMock(Book.class);
+        bookMockArr = new Book[100];
+        bookMockArr[0] = bookMock1;
+        bookMockArr[1] = bookMock2;
     }
 
     @After
@@ -33,7 +39,7 @@ public class BibliotecaTest {
         System.setOut(null);
         System.setErr(null);
         biblioteca = null;
-        bookMock = null;
+        bookMock1 = null;
     }
 
     @Test
@@ -62,37 +68,42 @@ public class BibliotecaTest {
 
     @Test
     public void ShouldDisplayListOfBooks() throws IOException {
-        bookMock.display();
-        replay(bookMock);
-        biblioteca.setBooks(new Book[]{bookMock});
+        bookMock1.display();
+        replay(bookMock1);
+        biblioteca.setBooks(new Book[]{bookMock1}, 1);
         biblioteca.selectOption(1);
-        verify(bookMock);
+        verify(bookMock1);
     }
 
     @Test
-    public void ShouldFindTheCorrectBook() {
-        bookMock.name = "foo";
-        biblioteca.setBooks(new Book[]{bookMock});
-        assertEquals(bookMock, biblioteca.findBookByName(bookMock.name));
+    public void ShouldFindTheCorrectBooks() {
+        bookMock1.name = "foo";
+        bookMock2.name = "foo";
+        biblioteca.setBooks(bookMockArr, 2);
+        assertEquals(2, biblioteca.numOfBooks);
+        assertArrayEquals(bookMockArr, biblioteca.findBooksByName("foo"));
     }
 
     @Test
     public void ShouldReserveBookWithSuccess() throws IOException {
-        expect(bookMock.isReserved()).andReturn(false);
-        bookMock.setReserve(true);
-        replay(bookMock);
-        biblioteca.reserveBook(bookMock);
+        expect(bookMock1.isNotReserved()).andReturn(true);
+        bookMock1.setReserve(true);
+        replay(bookMock1, bookMock2);
+        biblioteca.setBooks(bookMockArr, 2);
+        biblioteca.reserveBook(bookMockArr);
         assertTrue(outContent.toString().contains("Thank You! Enjoy the book."));
-        verify(bookMock);
+        verify(bookMock1, bookMock2);
     }
 
     @Test
     public void ShouldReserveBookWithFailure() throws IOException {
-        expect(bookMock.isReserved()).andReturn(true);
-        replay(bookMock);
-        biblioteca.reserveBook(bookMock);
+        expect(bookMock1.isNotReserved()).andReturn(false);
+        expect(bookMock2.isNotReserved()).andReturn(false);
+        replay(bookMock1, bookMock2);
+        biblioteca.setBooks(bookMockArr, 2);
+        biblioteca.reserveBook(bookMockArr);
         assertTrue(outContent.toString().contains("Sorry we don't have that book yet."));
-        verify(bookMock);
+        verify(bookMock1, bookMock2);
     }
 
     @Test

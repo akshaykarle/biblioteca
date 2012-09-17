@@ -21,9 +21,9 @@ class Biblioteca {
         return this;
     }
 
-    public void setBooks(Book[] bks) {
+    public void setBooks(Book[] bks, int number) {
         books = bks;
-        numOfBooks = bks.length;
+        numOfBooks = number;
     }
 
     public void displayMenu() {
@@ -81,37 +81,43 @@ class Biblioteca {
     }
 
     void findAndReserveBook() throws IOException{
-        Book book;
-        book = findBook();
-        if(book == null)
+        Book[] bks;
+        bks = findBooks();
+        if(bks[0] == null)
             System.out.println("Book not found!");
-        else
-            reserveBook(book);
-    }
-
-    void reserveBook(Book book) {
-        if(book.isReserved())
-            System.out.println("Sorry we don't have that book yet.");
         else {
-            book.setReserve(true);
-            System.out.println("Thank You! Enjoy the book.");
+            reserveBook(bks);
         }
     }
 
-    private Book findBook() throws IOException {
+    void reserveBook(Book[] bks) {
+        for (int i = 0; i < numOfBooks; i++) {
+            if(bks[i] != null && bks[i].isNotReserved()) {
+                bks[i].setReserve(true);
+                System.out.println("Thank You! Enjoy the book.");
+                return;
+            }
+        }
+        System.out.println("Sorry we don't have that book yet.");
+    }
+
+    private Book[] findBooks() throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         System.out.print("Enter the name of book: ");
         String name = bufferedReader.readLine();
-        Book book = findBookByName(name);
-        return book;
+        Book[] bks;
+        bks = findBooksByName(name);
+        return bks;
     }
 
-    Book findBookByName(String name) {
+    Book[] findBooksByName(String name) {
+        Book[] bks = new Book[100];
+        int j = 0;
         for(int i = 0; i < numOfBooks; i++) {
             if(books[i].name.equalsIgnoreCase(name))
-                return books[i];
+                bks[j++] = books[i];
         }
-        return null;
+        return bks;
     }
 
     void checkCardNumber() {

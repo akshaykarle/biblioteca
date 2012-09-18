@@ -9,20 +9,15 @@ class Biblioteca {
     private Book books[] = new Book [100];
 
     public Biblioteca seedData() {
-        books[0] = new Book();
-        books[0] = books[0].seedData();
-        books[1] = new Book();
-        books[1].name = "bar";
-        books[1].reserved = true;
-        books[2] = new Book();
-        books[2].name = "bar";
-        books[2].reserved = false;
+        books[0] = new Book(1, "foo", "foo", "foo", false);
+        books[1] = new Book(2, "bar", "bar", "bar", false);
+        books[2] = new Book(3, "bar", "bar", "bar", true);
         numOfBooks = 3;
         return this;
     }
 
-    public void setBooks(Book[] bks, int number) {
-        books = bks;
+    public void setBooks(Book[] newBooks, int number) {
+        books = newBooks;
         numOfBooks = number;
     }
 
@@ -80,20 +75,20 @@ class Biblioteca {
             books[i].display();
     }
 
-    void findAndReserveBook() throws IOException{
-        Book[] bks;
-        bks = findBooks();
-        if(bks[0] == null)
+    private void findAndReserveBook() throws IOException{
+        Book[] booksFound;
+        booksFound = findBooks();
+        if(booksFound[0] == null)
             System.out.println("Book not found!");
         else {
-            reserveBook(bks);
+            reserveBook(booksFound);
         }
     }
 
-    void reserveBook(Book[] bks) {
+    void reserveBook(Book[] booksFound) {
         for (int i = 0; i < numOfBooks; i++) {
-            if(bks[i] != null && bks[i].isNotReserved()) {
-                bks[i].setReserve(true);
+            if(booksFound[i] != null && booksFound[i].isNotReserved()) {
+                booksFound[i].setReserve(true);
                 System.out.println("Thank You! Enjoy the book.");
                 return;
             }
@@ -105,22 +100,22 @@ class Biblioteca {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         System.out.print("Enter the name of book: ");
         String name = bufferedReader.readLine();
-        Book[] bks;
-        bks = findBooksByName(name);
-        return bks;
+        Book[] booksFound;
+        booksFound = findBooksByName(name);
+        return booksFound;
     }
 
     Book[] findBooksByName(String name) {
-        Book[] bks = new Book[100];
+        Book[] booksFound = new Book[100];
         int j = 0;
         for(int i = 0; i < numOfBooks; i++) {
-            if(books[i].name.equalsIgnoreCase(name))
-                bks[j++] = books[i];
+            if(books[i].getName().equalsIgnoreCase(name))
+                booksFound[j++] = books[i];
         }
-        return bks;
+        return booksFound;
     }
 
-    void checkCardNumber() {
+    private void checkCardNumber() {
         System.out.println("Please talk to Librarian. Thank you.");
     }
 }

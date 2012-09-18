@@ -40,6 +40,8 @@ public class BibliotecaTest {
         System.setErr(null);
         biblioteca = null;
         bookMock1 = null;
+        bookMock2 = null;
+        bookMockArr = null;
     }
 
     @Test
@@ -77,11 +79,12 @@ public class BibliotecaTest {
 
     @Test
     public void ShouldFindTheCorrectBooks() {
-        bookMock1.name = "foo";
-        bookMock2.name = "foo";
+        expect(bookMock1.getName()).andReturn("foo");
+        expect(bookMock2.getName()).andReturn("foo");
+        replay(bookMock1, bookMock2);
         biblioteca.setBooks(bookMockArr, 2);
-        assertEquals(2, biblioteca.numOfBooks);
         assertArrayEquals(bookMockArr, biblioteca.findBooksByName("foo"));
+        verify(bookMock1, bookMock2);
     }
 
     @Test
@@ -107,8 +110,8 @@ public class BibliotecaTest {
     }
 
     @Test
-    public void ShouldSendErrorMessageOncheckCardNumber() {
-        biblioteca.checkCardNumber();
+    public void ShouldSendErrorMessageOncheckCardNumber() throws IOException {
+        biblioteca.selectOption(3);
         assertTrue(outContent.toString().contains("Please talk to Librarian. Thank you."));
     }
 }

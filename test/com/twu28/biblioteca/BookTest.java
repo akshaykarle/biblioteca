@@ -17,7 +17,7 @@ public class BookTest {
     public void setUp() {
         System.setOut(new PrintStream(outContent));
         System.setErr(new PrintStream(errContent));
-        book = new Book();
+        book = new Book(1, "foo", "foo", "foo", false);
     }
 
     @After
@@ -29,16 +29,16 @@ public class BookTest {
 
     @Test
     public void ShouldDisplayBookDetails() {
-        book = book.seedData();
         book.display();
-        Assert.assertTrue(outContent.toString().contains(String.valueOf(book.id)));
-        Assert.assertTrue(outContent.toString().contains(String.valueOf(book.author)));
-        Assert.assertTrue(outContent.toString().contains(String.valueOf(book.name)));
-        Assert.assertTrue(outContent.toString().contains(String.valueOf(book.publisher)));
+        Assert.assertTrue(outContent.toString().contains(String.valueOf(book.getAuthor())));
+        Assert.assertTrue(outContent.toString().contains(String.valueOf(book.getId())));
+        Assert.assertTrue(outContent.toString().contains(String.valueOf(book.getName())));
+        Assert.assertTrue(outContent.toString().contains(String.valueOf(book.getPublisher())));
+        Assert.assertTrue(outContent.toString().contains(String.valueOf(!book.isNotReserved())));
     }
 
     @Test
-    public void isNotReservedShouldReturnTrueIfBookIsNotReserved() {
+    public void isNotReservedShouldReturnTrueIfBookIsReserved() {
         book.setReserve(false);
         Assert.assertTrue(book.isNotReserved());
     }

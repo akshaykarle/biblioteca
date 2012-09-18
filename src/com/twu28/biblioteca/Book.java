@@ -1,15 +1,56 @@
 package com.twu28.biblioteca;
 
 class Book {
-    String name, author, publisher;
-    int id;
-    boolean reserved = false;
+    private String name, author, publisher;
+    private int id;
+    private boolean reserved;
 
-    public Book seedData() {
-        id = 1;
-        reserved = false;
-        name = author = publisher = "foo";
-        return this;
+    public Book(int identifier, String bookName, String bookAuthor, String bookPublisher, boolean bookReserve) {
+        id = identifier;
+        reserved = bookReserve;
+        name = bookName;
+        author = bookAuthor;
+        publisher = bookPublisher;
+    }
+
+    public void setName(String bookName) {
+        name = bookName;
+    }
+
+    public void setAuthor(String bookAuthor) {
+        author = bookAuthor;
+    }
+
+    public void setPublisher(String bookPublisher) {
+        publisher = bookPublisher;
+    }
+
+    public void setId(int identifier) {
+        id = identifier;
+    }
+
+    public void setReserve(boolean reserve) {
+        reserved = reserve;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getPublisher()  {
+        return publisher;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public boolean isNotReserved() {
+        return !reserved;
     }
 
     public void display() {
@@ -18,13 +59,5 @@ class Book {
         System.out.println("Author: " + author);
         System.out.println("Publisher: " + publisher);
         System.out.println("Reserved?: " + reserved);
-    }
-
-    public void setReserve(boolean reserve) {
-        reserved = reserve;
-    }
-
-    public boolean isNotReserved() {
-        return !reserved;
     }
 }

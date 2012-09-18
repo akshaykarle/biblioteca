@@ -11,9 +11,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 
 import static org.easymock.EasyMock.*;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class BibliotecaTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -35,7 +33,7 @@ public class BibliotecaTest {
     }
 
     @After
-    public void cleanUpStreams() {
+    public void cleanUp() {
         System.setOut(null);
         System.setErr(null);
         biblioteca = null;
@@ -45,35 +43,11 @@ public class BibliotecaTest {
     }
 
     @Test
-    public void ShouldDisplayWelcome() {
-        biblioteca.displayWelcome();
-        assertTrue(outContent.toString().contains("Welcome to Biblioteca!\n"));
-    }
-
-    @Test
-    public void ShouldDisplayMenu() {
-        biblioteca.displayMenu();
-        assertTrue(outContent.toString().contains(""));
-    }
-
-    @Test
-    public void ShouldHandleInvalidOptions() throws IOException {
-        assertEquals(0, biblioteca.selectOption(-1));
-        assertTrue(outContent.toString().contains("Select a valid option!!"));
-    }
-
-    @Test
-    public void shouldNotDisplayBooksIfNotPresent() throws IOException {
-        biblioteca.selectOption(1);
-        assertTrue(outContent.toString().contains("No books present in Biblioteca!!"));
-    }
-
-    @Test
     public void ShouldDisplayListOfBooks() throws IOException {
         bookMock1.display();
         replay(bookMock1);
         biblioteca.setBooks(new Book[]{bookMock1}, 1);
-        biblioteca.selectOption(1);
+        biblioteca.displayAllBooks();
         verify(bookMock1);
     }
 
@@ -93,8 +67,7 @@ public class BibliotecaTest {
         bookMock1.setReserve(true);
         replay(bookMock1, bookMock2);
         biblioteca.setBooks(bookMockArr, 2);
-        biblioteca.reserveBook(bookMockArr);
-        assertTrue(outContent.toString().contains("Thank You! Enjoy the book."));
+        assertTrue(biblioteca.reserveBook(bookMockArr));
         verify(bookMock1, bookMock2);
     }
 
@@ -104,14 +77,7 @@ public class BibliotecaTest {
         expect(bookMock2.isNotReserved()).andReturn(false);
         replay(bookMock1, bookMock2);
         biblioteca.setBooks(bookMockArr, 2);
-        biblioteca.reserveBook(bookMockArr);
-        assertTrue(outContent.toString().contains("Sorry we don't have that book yet."));
+        assertFalse(biblioteca.reserveBook(bookMockArr));
         verify(bookMock1, bookMock2);
-    }
-
-    @Test
-    public void ShouldSendErrorMessageOncheckCardNumber() throws IOException {
-        biblioteca.selectOption(3);
-        assertTrue(outContent.toString().contains("Please talk to Librarian. Thank you."));
     }
 }

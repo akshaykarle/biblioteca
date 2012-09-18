@@ -21,88 +21,30 @@ class Biblioteca {
         numOfBooks = number;
     }
 
-    public void displayMenu() {
-        System.out.print("\nMenu:\n" +
-                "1. View All Books.\n" +
-                "2. Reserve a book.\n" +
-                "3. Check Library Card Number.\n" +
-                "4. Exit.\n" +
-                "Please select your option: ");
-    }
-
-    public void displayWelcome() {
-        System.out.println("Welcome to Biblioteca!");
-    }
-
-    public void enterOption() throws IOException {
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        int option = 0;
-        do {
-            displayMenu();
-            option = Integer.parseInt(bufferedReader.readLine());
-            option  = selectOption(option);
-        }while(option >= 0);
-    }
-
-    int selectOption(int option) throws IOException{
-        if(option == 1) {
-            displayAllBooks();
-            return 1;
-        }
-        if(option == 2) {
-            findAndReserveBook();
-            return 2;
-        }
-        if(option == 3) {
-            checkCardNumber();
-            return 3;
-        }
-        if(option == 4) {
-            System.out.print("Bye!");
-            System.exit(0);
-        }
-        System.out.println("Select a valid option!!");
-        return 0;
-    }
-
-    private void displayAllBooks() {
-        if(numOfBooks == 0) {
-            System.out.println("No books present in Biblioteca!!");
-            return;
-        }
-        System.out.println("\nBiblioteca contains the following books:");
+    public int displayAllBooks() {
         for(int i = 0; i < numOfBooks; i++)
             books[i].display();
+        return numOfBooks;
     }
 
-    private void findAndReserveBook() throws IOException{
+    public boolean findAndReserveBook(String name) throws IOException{
         Book[] booksFound;
-        booksFound = findBooks();
+        booksFound = findBooksByName(name);
         if(booksFound[0] == null)
-            System.out.println("Book not found!");
+            return false;
         else {
-            reserveBook(booksFound);
+            return reserveBook(booksFound);
         }
     }
 
-    void reserveBook(Book[] booksFound) {
+    boolean reserveBook(Book[] booksFound) {
         for (int i = 0; i < numOfBooks; i++) {
             if(booksFound[i] != null && booksFound[i].isNotReserved()) {
                 booksFound[i].setReserve(true);
-                System.out.println("Thank You! Enjoy the book.");
-                return;
+                return true;
             }
         }
-        System.out.println("Sorry we don't have that book yet.");
-    }
-
-    private Book[] findBooks() throws IOException {
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        System.out.print("Enter the name of book: ");
-        String name = bufferedReader.readLine();
-        Book[] booksFound;
-        booksFound = findBooksByName(name);
-        return booksFound;
+        return false;
     }
 
     Book[] findBooksByName(String name) {
@@ -115,7 +57,5 @@ class Biblioteca {
         return booksFound;
     }
 
-    private void checkCardNumber() {
-        System.out.println("Please talk to Librarian. Thank you.");
-    }
+
 }

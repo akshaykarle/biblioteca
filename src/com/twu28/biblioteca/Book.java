@@ -13,23 +13,7 @@ class Book {
         publisher = bookPublisher;
     }
 
-    public void setName(String bookName) {
-        name = bookName;
-    }
-
-    public void setAuthor(String bookAuthor) {
-        author = bookAuthor;
-    }
-
-    public void setPublisher(String bookPublisher) {
-        publisher = bookPublisher;
-    }
-
-    public void setId(int identifier) {
-        id = identifier;
-    }
-
-    public void setReserve(boolean reserve) {
+    public void reserve(boolean reserve) {
         reserved = reserve;
     }
 

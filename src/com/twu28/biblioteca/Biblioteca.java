@@ -40,7 +40,7 @@ class Biblioteca {
     boolean reserveBook(Book[] booksFound) {
         for (int i = 0; i < numOfBooks; i++) {
             if(booksFound[i] != null && booksFound[i].isNotReserved()) {
-                booksFound[i].setReserve(true);
+                booksFound[i].reserve(true);
                 return true;
             }
         }

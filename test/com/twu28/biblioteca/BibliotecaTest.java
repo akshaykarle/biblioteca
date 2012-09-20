@@ -64,7 +64,7 @@ public class BibliotecaTest {
     @Test
     public void ShouldReserveBookWithSuccess() throws IOException {
         expect(bookMock1.isNotReserved()).andReturn(true);
-        bookMock1.setReserve(true);
+        bookMock1.reserve(true);
         replay(bookMock1, bookMock2);
         biblioteca.setBooks(bookMockArr, 2);
         assertTrue(biblioteca.reserveBook(bookMockArr));

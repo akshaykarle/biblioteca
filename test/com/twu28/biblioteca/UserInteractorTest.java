@@ -1,21 +1,19 @@
 package com.twu28.biblioteca;
 
+import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
+import java.io.*;
 
-import static org.easymock.EasyMock.createMock;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.*;
 import static org.junit.Assert.assertTrue;
 
 public class UserInteractorTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
+    private ByteArrayInputStream inContent;
     private UserInteractor userInteractor;
     private Biblioteca bibliotecaMock;
 
@@ -57,6 +55,31 @@ public class UserInteractorTest {
     public void shouldNotDisplayBooksIfNotPresent() throws IOException {
         userInteractor.selectOption(1);
         assertTrue(outContent.toString().contains("No books present in Biblioteca!!"));
+    }
+
+    @Test
+    public void ShouldDisplaySuccesfulBookReservation() throws IOException {
+        String name = "foo";
+        expect(bibliotecaMock.findAndReserveBook(name)).andReturn(true);
+        replay(bibliotecaMock);
+        userInteractor.setBiblioteca(bibliotecaMock);
+        inContent = new ByteArrayInputStream(name.getBytes());
+        System.setIn(inContent);
+        userInteractor.selectOption(2);
+        assertTrue(outContent.toString().contains("Thank You! Enjoy the book."));
+        verify(bibliotecaMock);
+    }
+
+    @Test
+    public void ShouldDisplayFailureOfBookReservation() throws IOException {
+        expect(bibliotecaMock.findAndReserveBook("foo")).andReturn(false);
+        replay(bibliotecaMock);
+        userInteractor.setBiblioteca(bibliotecaMock);
+        inContent = new ByteArrayInputStream("foo".getBytes());
+        System.setIn(inContent);
+        userInteractor.selectOption(2);
+        assertTrue(outContent.toString().contains("Sorry we don't have that book yet."));
+        verify(bibliotecaMock);
     }
 
     @Test

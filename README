@@ -1,5 +1,6 @@
 ThoughtWorks University TWU29:
 
+Week 1:
 Requirements for assignment 1:
 The customer should see a welcome when they start the application.
 A customer should have a list of menu options at the start of the application.
@@ -10,3 +11,19 @@ A customer should be able to reserve a book for collection.
 A customer should be notified if their selected book was reserved successfully with “Thank You! Enjoy the book.”
 A customer should be notified if their selected book is not available with “Sorry we don't have that book yet.”
 A customer should be able to check their library number and be notified with “Please talk to Librarian. Thank you.”
+
+Week 2:
+Requirement 1:
+As a user of the application, I would like to be able to open the application, be presented with a new menu item which
+will let me view the movie name, director and its rating.
+
+The library will have 15 movies, which are pre-rated for popularity. People who use the application need the ability to
+list the movie names and the ratings. We only need to see the movie name, the director and the rating.
+
+The rating needs to be on a 1 – 10 scale, but can be represented visually however you want. We don’t need to worry about
+how the pre-rating happened. Some movies might be very new and may not have a pre-rating. In this case, show the movie
+name and explicitly show the user that this movie is not rated. This is equivalent to ‘N/A’.
+
+So the user should see this:
+Movie	Year	Director	    Rating
+Sholay	1975	Ramesh Sippy	N/A

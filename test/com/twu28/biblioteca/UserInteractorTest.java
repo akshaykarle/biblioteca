@@ -87,4 +87,24 @@ public class UserInteractorTest {
         userInteractor.selectOption(3);
         assertTrue(outContent.toString().contains("Please talk to Librarian. Thank you."));
     }
+
+    @Test
+    public void ShouldNotDisplayAnyMovies() throws IOException {
+        expect(bibliotecaMock.displayAllMovies()).andReturn(0);
+        replay(bibliotecaMock);
+        userInteractor.setBiblioteca(bibliotecaMock);
+        userInteractor.selectOption(4);
+        assertTrue(outContent.toString().contains("No movies found!"));
+        verify(bibliotecaMock);
+    }
+
+    @Test
+    public void ShouldDisplayAllMovies() throws IOException {
+        expect(bibliotecaMock.displayAllMovies()).andReturn(15);
+        replay(bibliotecaMock);
+        userInteractor.setBiblioteca(bibliotecaMock);
+        userInteractor.selectOption(4);
+        assertTrue(outContent.toString().contains("Movie\t\tYear\tDirector\tRating"));
+        verify(bibliotecaMock);
+    }
 }

@@ -7,6 +7,10 @@ import java.io.InputStreamReader;
 public class UserInteractor {
     Biblioteca biblioteca = new Biblioteca();
 
+    public void setBiblioteca(Biblioteca library) {
+        biblioteca = library;
+    }
+
     public void seedData() {
         biblioteca.seedData();
     }
@@ -16,7 +20,8 @@ public class UserInteractor {
                 "1. View All Books.\n" +
                 "2. Reserve a book.\n" +
                 "3. Check Library Card Number.\n" +
-                "4. Exit.\n" +
+                "4. View All Movies and their ratings.\n" +
+                "5. Exit.\n" +
                 "Please select your option: ");
     }
 
@@ -26,8 +31,7 @@ public class UserInteractor {
 
     public void enterOption() throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        int option = 0;
-        boolean success;
+        int option;
         do {
             displayMenu();
             option = Integer.parseInt(bufferedReader.readLine());
@@ -49,11 +53,22 @@ public class UserInteractor {
             return true;
         }
         if(option == 4) {
+            displayAllMoviesOption();
+            return true;
+        }
+        if(option == 5) {
             System.out.print("Bye!");
             System.exit(0);
         }
         System.out.println("Select a valid option!!");
         return false;
+    }
+
+    private void displayAllMoviesOption() {
+        System.out.println("Movie\t\tYear\tDirector\tRating");
+        int numOfMovies = biblioteca.displayAllMovies();
+        if(numOfMovies == 0)
+            System.out.println("No movies found!");
     }
 
     private void displayAllBooksOption() {

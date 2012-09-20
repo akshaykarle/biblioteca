@@ -20,7 +20,19 @@ public class UserInteractor {
     }
 
     public void seedData() {
+        seedUsers();
         biblioteca.seedData();
+    }
+
+    private void seedUsers() {
+        numOfUsers = 3;
+        for(int i = 0; i < numOfUsers; i++) {
+            String name = "111-111" + String.valueOf(i);
+            String password = "abc";
+            String emailId = "user" + String.valueOf(i) + "@thoughtworks.com";
+            int contactNumber = 1234567890;
+            appUsers[i] = new User(name, password, emailId, contactNumber);
+        }
     }
 
     public void displayMenu() {
@@ -29,7 +41,8 @@ public class UserInteractor {
                 "2. Reserve a book.\n" +
                 "3. Check Library Card Number.\n" +
                 "4. View All Movies and their ratings.\n" +
-                "5. Exit.\n" +
+                "5. Login.\n" +
+                "6. Exit.\n" +
                 "Please select your option: ");
     }
 
@@ -53,8 +66,10 @@ public class UserInteractor {
             return true;
         }
         if(option == 2) {
-            if(!authenticationSuccess)
+            if(!authenticationSuccess) {
                 System.out.println("User Authentication failed. Please login before viewing this option.");
+                return true;
+            }
             else {
             reserveBookOption();
             return true;
@@ -90,7 +105,7 @@ public class UserInteractor {
         String password = bufferedReader.readLine();
 
         User user = findUserByName(username);
-        if(user != null && user.authenticate(username, password)) {
+        if(user != null && user.authenticate(password)) {
             System.out.println("Authentication successful");
             return true;
         }

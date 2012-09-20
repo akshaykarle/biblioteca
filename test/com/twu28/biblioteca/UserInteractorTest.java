@@ -95,7 +95,7 @@ public class UserInteractorTest {
     @Test
     public void ShouldDisplayUserDetailsIfUserIsLoggedIn() throws IOException {
         expect(userMock.getUserName()).andReturn("111-1111");
-        expect(userMock.authenticate("111-1111", "ex@mple")).andReturn(true);
+        expect(userMock.authenticate("ex@mple")).andReturn(true);
         userMock.display();
         replay(userMock);
         userInteractor.setValidUsers(new User[]{userMock}, 1);
@@ -139,7 +139,7 @@ public class UserInteractorTest {
     @Test
     public void ShouldDisplayErrorOnAuthenticationFailure() throws IOException {
         expect(userMock.getUserName()).andReturn("foo");
-        expect(userMock.authenticate("foo", "foo")).andReturn(false);
+        expect(userMock.authenticate("foo")).andReturn(false);
         replay(userMock);
         inContent = new ByteArrayInputStream("foo\r\nfoo".getBytes());
         System.setIn(inContent);
@@ -152,7 +152,7 @@ public class UserInteractorTest {
     @Test
     public void ShouldDisplaySuccessOnAuthenticationOfValidUser() throws IOException {
         expect(userMock.getUserName()).andReturn("111-1111");
-        expect(userMock.authenticate("111-1111", "ex@mple")).andReturn(true);
+        expect(userMock.authenticate("ex@mple")).andReturn(true);
         replay(userMock);
         inContent = new ByteArrayInputStream("111-1111\r\nex@mple".getBytes());
         System.setIn(inContent);

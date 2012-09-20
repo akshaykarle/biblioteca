@@ -6,9 +6,17 @@ import java.io.InputStreamReader;
 
 public class UserInteractor {
     Biblioteca biblioteca = new Biblioteca();
+    User[] appUsers = new User[10];
+    private int numOfUsers;
+    private boolean authenticationSuccess;
 
     public void setBiblioteca(Biblioteca library) {
         biblioteca = library;
+    }
+
+    public void setValidUsers(User[] validUsers, int number) {
+        appUsers = validUsers;
+        numOfUsers = number;
     }
 
     public void seedData() {
@@ -57,11 +65,43 @@ public class UserInteractor {
             return true;
         }
         if(option == 5) {
+            authenticationSuccess = loginOption();
+            return true;
+        }
+        if(option == 6) {
             System.out.print("Bye!");
             System.exit(0);
         }
         System.out.println("Select a valid option!!");
         return false;
+    }
+
+    private boolean loginOption() throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+
+        System.out.print("Enter username: ");
+        String username = bufferedReader.readLine();
+
+        System.out.print("Enter password: ");
+        String password = bufferedReader.readLine();
+
+        User user = findUserByName(username);
+        if(user != null && user.authenticate(username, password)) {
+            System.out.println("Authentication successful");
+            return true;
+        }
+        else {
+            System.out.println("Login failed! Please check your username/password");
+            return false;
+        }
+    }
+
+    User findUserByName(String username) {
+        for(int i = 0; i < numOfUsers; i++) {
+            if(appUsers[i].getUserName().equals(username))
+                return appUsers[i];
+        }
+        return null;
     }
 
     private void displayAllMoviesOption() {

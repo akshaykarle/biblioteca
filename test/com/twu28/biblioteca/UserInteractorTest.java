@@ -8,6 +8,7 @@ import org.junit.Test;
 import java.io.*;
 
 import static org.easymock.EasyMock.*;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class UserInteractorTest {
@@ -16,6 +17,7 @@ public class UserInteractorTest {
     private ByteArrayInputStream inContent;
     private UserInteractor userInteractor;
     private Biblioteca bibliotecaMock;
+    private User userMock;
 
     @Before
     public void setUp() {
@@ -23,6 +25,7 @@ public class UserInteractorTest {
         System.setErr(new PrintStream(errContent));
         userInteractor = new UserInteractor();
         bibliotecaMock = createMock(Biblioteca.class);
+        userMock = createMock(User.class);
     }
 
     @After
@@ -31,6 +34,7 @@ public class UserInteractorTest {
         System.setErr(null);
         bibliotecaMock = null;
         userInteractor = null;
+        userMock = null;
     }
 
     @Test
@@ -107,4 +111,46 @@ public class UserInteractorTest {
         assertTrue(outContent.toString().contains("Movie\t\tYear\tDirector\tRating"));
         verify(bibliotecaMock);
     }
+
+    @Test
+    public void ShouldFindUserByName() {
+        expect(userMock.getUserName()).andReturn("foo");
+        replay(userMock);
+        userInteractor.setValidUsers(new User[]{userMock}, 1);
+        assertEquals(userMock, userInteractor.findUserByName("foo"));
+        verify(userMock);
+    }
+
+    @Test
+    public void ShouldDisplayErrorOnAuthenticationFailure() throws IOException {
+        expect(userMock.getUserName()).andReturn("foo");
+        expect(userMock.authenticate("foo", "foo")).andReturn(false);
+        replay(userMock);
+        inContent = new ByteArrayInputStream("foo\r\nfoo".getBytes());
+        System.setIn(inContent);
+        userInteractor.setValidUsers(new User[]{userMock}, 1);
+        userInteractor.selectOption(5);
+        assertTrue(outContent.toString().contains("Login failed! Please check your username/password"));
+        verify(userMock);
+    }
+
+    @Test
+    public void ShouldDisplaySuccessOnAuthenticationOfValidUser() throws IOException {
+        expect(userMock.getUserName()).andReturn("111-1111");
+        expect(userMock.authenticate("111-1111", "ex@mple")).andReturn(true);
+        replay(userMock);
+        inContent = new ByteArrayInputStream("111-1111\r\nex@mple".getBytes());
+        System.setIn(inContent);
+        userInteractor.setValidUsers(new User[]{userMock}, 1);
+        userInteractor.selectOption(5);
+        assertTrue(outContent.toString().contains("Authentication successful"));
+        verify(userMock);
+    }
+
+    /*@Test
+    public void UserShouldBeLoggedInBeforeReservingBook() throws IOException {
+        userInteractor.selectOption(2);
+        assertTrue(outContent.toString().contains("Please login before viewing this option"));
+    }*/
+
 }

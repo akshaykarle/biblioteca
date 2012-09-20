@@ -27,3 +27,23 @@ name and explicitly show the user that this movie is not rated. This is equivale
 So the user should see this:
 Movie	Year	Director	    Rating
 Sholay	1975	Ramesh Sippy	N/A
+
+Requirement 2:
+The following requirements would be nice to have:
+
+There will be multiple people accessing this movie library. They will all be users of the application.
+
+They will need to have a login username and password
+The user list is pre-defined. Registration of new users is not required
+If someone forgets a password, we do not have the ability to reset password. This may be a future requirement.
+A user must enter a correct username and password to log in
+There is no specific requirement for the password (letters, numbers etc)
+The login/username will be the user’s library number. The library number format is: xxx-xxxx where x is a number
+starting at 111-1111 (and incrementing by 1 for each subsequent user).
+
+The part of the system that reported details before (“Please talk to your Librarian”) will now report your name, email
+address, phone number. If you are not logged in, it will say “Please talk to Librarian” (same as it does now).
+
+Login rules
+All operations from now on will require the user to be logged in except for viewing all the books and movies the library
+has.

@@ -53,8 +53,12 @@ public class UserInteractor {
             return true;
         }
         if(option == 2) {
+            if(!authenticationSuccess)
+                System.out.println("User Authentication failed. Please login before viewing this option.");
+            else {
             reserveBookOption();
             return true;
+            }
         }
         if(option == 3) {
             checkCardNumberOption();
@@ -118,7 +122,7 @@ public class UserInteractor {
             System.out.println("No books present in Biblioteca!!");
     }
 
-    private void reserveBookOption() throws IOException {
+    void reserveBookOption() throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         System.out.print("Enter the name of book: ");
         String name = bufferedReader.readLine();
@@ -130,6 +134,11 @@ public class UserInteractor {
     }
 
     private void checkCardNumberOption() {
-        System.out.println("Please talk to Librarian. Thank you.");
+        if(authenticationSuccess) {
+            for(int i = 0; i < numOfUsers; i++)
+                appUsers[i].display();
+        }
+        else
+            System.out.println("Please talk to Librarian. Thank you.");
     }
 }

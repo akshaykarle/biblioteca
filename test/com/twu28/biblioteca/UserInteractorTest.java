@@ -69,7 +69,7 @@ public class UserInteractorTest {
         userInteractor.setBiblioteca(bibliotecaMock);
         inContent = new ByteArrayInputStream(name.getBytes());
         System.setIn(inContent);
-        userInteractor.selectOption(2);
+        userInteractor.reserveBookOption();
         assertTrue(outContent.toString().contains("Thank You! Enjoy the book."));
         verify(bibliotecaMock);
     }
@@ -81,15 +81,30 @@ public class UserInteractorTest {
         userInteractor.setBiblioteca(bibliotecaMock);
         inContent = new ByteArrayInputStream("foo".getBytes());
         System.setIn(inContent);
-        userInteractor.selectOption(2);
+        userInteractor.reserveBookOption();
         assertTrue(outContent.toString().contains("Sorry we don't have that book yet."));
         verify(bibliotecaMock);
     }
 
     @Test
-    public void ShouldSendErrorMessageOncheckCardNumber() throws IOException {
+    public void ShouldSendErrorMessageOncheckCardNumberIfUserNotAuthenticated() throws IOException {
         userInteractor.selectOption(3);
         assertTrue(outContent.toString().contains("Please talk to Librarian. Thank you."));
+    }
+
+    @Test
+    public void ShouldDisplayUserDetailsIfUserIsLoggedIn() throws IOException {
+        expect(userMock.getUserName()).andReturn("111-1111");
+        expect(userMock.authenticate("111-1111", "ex@mple")).andReturn(true);
+        userMock.display();
+        replay(userMock);
+        userInteractor.setValidUsers(new User[]{userMock}, 1);
+        inContent = new ByteArrayInputStream("111-1111\r\nex@mple".getBytes());
+        System.setIn(inContent);
+        userInteractor.selectOption(5);
+
+        userInteractor.selectOption(3);
+        verify(userMock);
     }
 
     @Test
@@ -147,10 +162,10 @@ public class UserInteractorTest {
         verify(userMock);
     }
 
-    /*@Test
+    @Test
     public void UserShouldBeLoggedInBeforeReservingBook() throws IOException {
         userInteractor.selectOption(2);
         assertTrue(outContent.toString().contains("Please login before viewing this option"));
-    }*/
+    }
 
 }

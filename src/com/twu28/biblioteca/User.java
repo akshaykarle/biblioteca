@@ -10,4 +10,8 @@ class User {
     public boolean authenticate(String usernameToAuthenticate, String passwordToValidate) {
         return false;
     }
+
+    public void display() {
+        //To change body of created methods use File | Settings | File Templates.
+    }
 }

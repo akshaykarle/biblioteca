@@ -1,5 +1,7 @@
 package com.twu28.biblioteca;
 
+import java.util.UUID;
+
 class User {
     private String userName, password, emailId;
     private long phoneNumber;
@@ -13,10 +15,6 @@ class User {
 
     private boolean validUserNameFormat(String userName) {
         return userName.matches("\\d\\d\\d-\\d\\d\\d\\d");
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getEmailId() {
@@ -36,10 +34,7 @@ class User {
     }
 
     public User(String name, String userpassword, String emailAddress, int contactNumber) {
-        if(validUserNameFormat(name))
-            userName = name;
-        else
-            System.out.println("Please Enter Valid UserName");
+        this.setUserName(name);
         password = userpassword;
         emailId = emailAddress;
         phoneNumber = contactNumber;

@@ -8,7 +8,7 @@ public class UserInteractor {
     Biblioteca biblioteca = new Biblioteca();
     User[] appUsers = new User[10];
     private int numOfUsers;
-    private boolean authenticationSuccess;
+    private User loggedInUser;
 
     public void setBiblioteca(Biblioteca library) {
         biblioteca = library;
@@ -27,9 +27,9 @@ public class UserInteractor {
     private void seedUsers() {
         numOfUsers = 3;
         for(int i = 0; i < numOfUsers; i++) {
-            String name = "111-111" + String.valueOf(i);
+            String name = "111-111" + String.valueOf(i + 1);
             String password = "abc";
-            String emailId = "user" + String.valueOf(i) + "@thoughtworks.com";
+            String emailId = "user" + String.valueOf(i + 1) + "@thoughtworks.com";
             int contactNumber = 1234567890;
             appUsers[i] = new User(name, password, emailId, contactNumber);
         }
@@ -66,7 +66,7 @@ public class UserInteractor {
             return true;
         }
         if(option == 2) {
-            if(!authenticationSuccess) {
+            if(loggedInUser == null) {
                 System.out.println("User Authentication failed. Please login before viewing this option.");
                 return true;
             }
@@ -84,7 +84,7 @@ public class UserInteractor {
             return true;
         }
         if(option == 5) {
-            authenticationSuccess = loginOption();
+            loggedInUser = loginOption();
             return true;
         }
         if(option == 6) {
@@ -95,7 +95,7 @@ public class UserInteractor {
         return false;
     }
 
-    private boolean loginOption() throws IOException {
+    private User loginOption() throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 
         System.out.print("Enter username: ");
@@ -107,11 +107,11 @@ public class UserInteractor {
         User user = findUserByName(username);
         if(user != null && user.authenticate(password)) {
             System.out.println("Authentication successful");
-            return true;
+            return user;
         }
         else {
             System.out.println("Login failed! Please check your username/password");
-            return false;
+            return null;
         }
     }
 
@@ -149,9 +149,8 @@ public class UserInteractor {
     }
 
     private void checkCardNumberOption() {
-        if(authenticationSuccess) {
-            for(int i = 0; i < numOfUsers; i++)
-                appUsers[i].display();
+        if(loggedInUser != null) {
+            loggedInUser.display();
         }
         else
             System.out.println("Please talk to Librarian. Thank you.");

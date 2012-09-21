@@ -16,7 +16,7 @@ public class UserTest {
     @Before
     public void setUp() {
         System.setOut(new PrintStream(outContent));
-        user = new User("111-1111", "abc", "foo@bar.com", 123456890);
+        user = new User("111-1111", "abc", "foo@bar.com", 1234567890L);
     }
 
     @After
@@ -28,7 +28,19 @@ public class UserTest {
     @Test
     public void shouldRaiseErrorOnSettingInvalidUserName() {
         user.setUserName("foo");
-        assertTrue(outContent.toString().contains("Please Enter Valid UserName"));
+        assertTrue(outContent.toString().contains("Please enter Valid UserName"));
+    }
+
+    @Test
+    public void shouldRaiseErrorOnSettingInvalidEmailID() {
+        user.setEmailId("foo.bar");
+        assertTrue(outContent.toString().contains("Please enter Valid Email"));
+    }
+
+    @Test
+    public void shouldRaiseErrorOnSettingInvalidPhoneNumber() {
+        user.setPhoneNumber(12345L);
+        assertTrue(outContent.toString().contains("Please enter Valid Phone Number"));
     }
 
     @Test

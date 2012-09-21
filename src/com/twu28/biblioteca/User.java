@@ -10,11 +10,15 @@ class User {
         if(validUserNameFormat(userName))
             this.userName = userName;
         else
-            System.out.println("Please Enter Valid UserName");
+            System.out.println("Please enter Valid UserName");
     }
 
     private boolean validUserNameFormat(String userName) {
         return userName.matches("\\d\\d\\d-\\d\\d\\d\\d");
+    }
+
+    public void setPassword(String userpassword) {
+        password = userpassword;
     }
 
     public String getEmailId() {
@@ -22,7 +26,10 @@ class User {
     }
 
     public void setEmailId(String emailId) {
-        this.emailId = emailId;
+        if(emailId.matches("\\w+\\@\\w+\\.\\w+"))
+            this.emailId = emailId;
+        else
+            System.out.println("Please enter Valid Email ID.");
     }
 
     public long getPhoneNumber() {
@@ -30,14 +37,17 @@ class User {
     }
 
     public void setPhoneNumber(long phoneNumber) {
-        this.phoneNumber = phoneNumber;
+        if(phoneNumber >= 1000000000L && phoneNumber <= 9999999999L)
+            this.phoneNumber = phoneNumber;
+        else
+            System.out.println("Please enter Valid Phone Number.");
     }
 
-    public User(String name, String userpassword, String emailAddress, int contactNumber) {
+    public User(String name, String userpassword, String emailAddress, long contactNumber) {
         this.setUserName(name);
-        password = userpassword;
-        emailId = emailAddress;
-        phoneNumber = contactNumber;
+        this.setPassword(userpassword);
+        this.setEmailId(emailAddress);
+        this.setPhoneNumber(contactNumber);
     }
 
     public String getUserName() {

@@ -30,7 +30,7 @@ public class UserInteractor {
             String name = "111-111" + String.valueOf(i + 1);
             String password = "abc";
             String emailId = "user" + String.valueOf(i + 1) + "@thoughtworks.com";
-            int contactNumber = 1234567890;
+            long contactNumber = 1234567890L;
             appUsers[i] = new User(name, password, emailId, contactNumber);
         }
     }

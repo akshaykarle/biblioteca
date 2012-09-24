@@ -3,36 +3,24 @@ package com.twu28.biblioteca;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 public class UserInteractor {
     Biblioteca biblioteca = new Biblioteca();
-    User[] appUsers = new User[10];
-    private int numOfUsers;
-    private User loggedInUser;
+    UserCollection users = new UserCollection();
+    User loggedInUser;
 
     public void setBiblioteca(Biblioteca library) {
         biblioteca = library;
     }
 
-    public void setValidUsers(User[] validUsers, int number) {
-        appUsers = validUsers;
-        numOfUsers = number;
+    public void setUserCollection(UserCollection newUsers) {
+        users = newUsers;
     }
 
     public void seedData() {
-        seedUsers();
+        users.seedUsers();
         biblioteca.seedData();
-    }
-
-    private void seedUsers() {
-        numOfUsers = 3;
-        for(int i = 0; i < numOfUsers; i++) {
-            String name = "111-111" + String.valueOf(i + 1);
-            String password = "abc";
-            String emailId = "user" + String.valueOf(i + 1) + "@thoughtworks.com";
-            long contactNumber = 1234567890L;
-            appUsers[i] = new User(name, password, emailId, contactNumber);
-        }
     }
 
     public void displayMenu() {
@@ -104,23 +92,15 @@ public class UserInteractor {
         System.out.print("Enter password: ");
         String password = bufferedReader.readLine();
 
-        User user = findUserByName(username);
-        if(user != null && user.authenticate(password)) {
+        User loggedInUser = users.findAndAuthenticateUser(username, password);
+        if(loggedInUser != null) {
             System.out.println("Authentication successful");
-            return user;
+            return loggedInUser;
         }
         else {
             System.out.println("Login failed! Please check your username/password");
             return null;
         }
-    }
-
-    User findUserByName(String username) {
-        for(int i = 0; i < numOfUsers; i++) {
-            if(appUsers[i].getUserName().equals(username))
-                return appUsers[i];
-        }
-        return null;
     }
 
     private void displayAllMoviesOption() {

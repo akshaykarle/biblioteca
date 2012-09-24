@@ -1,7 +1,5 @@
 package com.twu28.biblioteca;
 
-import java.util.UUID;
-
 class User {
     private String userName, password, emailId;
     private long phoneNumber;

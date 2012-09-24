@@ -1,6 +1,5 @@
 package com.twu28.biblioteca;
 
-import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,7 +7,6 @@ import org.junit.Test;
 import java.io.*;
 
 import static org.easymock.EasyMock.*;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class UserInteractorTest {
@@ -17,6 +15,7 @@ public class UserInteractorTest {
     private ByteArrayInputStream inContent;
     private UserInteractor userInteractor;
     private Biblioteca bibliotecaMock;
+    private UserCollection userCollectionMock;
     private User userMock;
 
     @Before
@@ -25,6 +24,7 @@ public class UserInteractorTest {
         System.setErr(new PrintStream(errContent));
         userInteractor = new UserInteractor();
         bibliotecaMock = createMock(Biblioteca.class);
+        userCollectionMock = createMock(UserCollection.class);
         userMock = createMock(User.class);
     }
 
@@ -35,6 +35,7 @@ public class UserInteractorTest {
         bibliotecaMock = null;
         userInteractor = null;
         userMock = null;
+        userCollectionMock = null;
     }
 
     @Test
@@ -94,15 +95,10 @@ public class UserInteractorTest {
 
     @Test
     public void ShouldDisplayUserDetailsIfUserIsLoggedIn() throws IOException {
-        expect(userMock.getUserName()).andReturn("111-1111");
-        expect(userMock.authenticate("ex@mple")).andReturn(true);
+        User userMock = createMock(User.class);
         userMock.display();
         replay(userMock);
-        userInteractor.setValidUsers(new User[]{userMock}, 1);
-        inContent = new ByteArrayInputStream("111-1111\r\nex@mple".getBytes());
-        System.setIn(inContent);
-        userInteractor.selectOption(5);
-
+        userInteractor.loggedInUser = userMock;
         userInteractor.selectOption(3);
         verify(userMock);
     }
@@ -128,38 +124,27 @@ public class UserInteractorTest {
     }
 
     @Test
-    public void ShouldFindUserByName() {
-        expect(userMock.getUserName()).andReturn("foo");
-        replay(userMock);
-        userInteractor.setValidUsers(new User[]{userMock}, 1);
-        assertEquals(userMock, userInteractor.findUserByName("foo"));
-        verify(userMock);
-    }
-
-    @Test
     public void ShouldDisplayErrorOnAuthenticationFailure() throws IOException {
-        expect(userMock.getUserName()).andReturn("foo");
-        expect(userMock.authenticate("foo")).andReturn(false);
-        replay(userMock);
+        expect(userCollectionMock.findAndAuthenticateUser("foo","foo")).andReturn(null);
+        replay(userCollectionMock);
+        userInteractor.setUserCollection(userCollectionMock);
         inContent = new ByteArrayInputStream("foo\r\nfoo".getBytes());
         System.setIn(inContent);
-        userInteractor.setValidUsers(new User[]{userMock}, 1);
         userInteractor.selectOption(5);
         assertTrue(outContent.toString().contains("Login failed! Please check your username/password"));
-        verify(userMock);
+        verify(userCollectionMock);
     }
 
     @Test
     public void ShouldDisplaySuccessOnAuthenticationOfValidUser() throws IOException {
-        expect(userMock.getUserName()).andReturn("111-1111");
-        expect(userMock.authenticate("ex@mple")).andReturn(true);
-        replay(userMock);
+        expect(userCollectionMock.findAndAuthenticateUser("111-1111", "ex@mple")).andReturn(userMock);
+        replay(userCollectionMock);
+        userInteractor.setUserCollection(userCollectionMock);
         inContent = new ByteArrayInputStream("111-1111\r\nex@mple".getBytes());
         System.setIn(inContent);
-        userInteractor.setValidUsers(new User[]{userMock}, 1);
         userInteractor.selectOption(5);
         assertTrue(outContent.toString().contains("Authentication successful"));
-        verify(userMock);
+        verify(userCollectionMock);
     }
 
     @Test

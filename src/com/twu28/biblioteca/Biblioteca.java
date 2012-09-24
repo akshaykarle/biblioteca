@@ -5,7 +5,7 @@ import java.io.IOException;
 class Biblioteca {
     int numOfBooks, numOfMovies;
     private Book books[] = new Book [100];
-    private Movie[] movies = new Movie[15];
+    private MovieCollection movies = new MovieCollection();
 
     private void seedBooks() {
         books[0] = new Book(1, "foo", "foo", "foo", false);
@@ -14,22 +14,9 @@ class Biblioteca {
         numOfBooks = 3;
     }
 
-    private void seedMovies() {
-        numOfMovies = 15;
-        for(int i = 0; i < numOfMovies; i++) {
-            String name = "Movie" + String.valueOf(i);
-            String director = "Director" + String.valueOf(i);
-            int year = 1990 + i;
-            int rating = i;
-            if(i > 10)
-                rating = i/2;
-            movies[i] = new Movie(name, director, year, rating);
-        }
-    }
-
     public Biblioteca seedData() {
         seedBooks();
-        seedMovies();
+        movies.seedMovies();
         return this;
     }
 
@@ -38,9 +25,8 @@ class Biblioteca {
         numOfBooks = number;
     }
 
-    public void setMovies(Movie[] newMovies, int number) {
+    public void setMoviesCollection(MovieCollection newMovies) {
         movies = newMovies;
-        numOfMovies = number;
     }
 
     public int displayAllBooks() {
@@ -80,9 +66,6 @@ class Biblioteca {
     }
 
     public int displayAllMovies() {
-        for(int i = 0; i < numOfMovies; i++) {
-            movies[i].display();
-        }
-        return numOfMovies;
+        return movies.display();
     }
 }

@@ -17,7 +17,6 @@ public class BibliotecaTest {
     private Biblioteca biblioteca;
     private Book bookMock1, bookMock2;
     private Book[] bookMockArr;
-    private Movie movieMock;
 
     @Before
     public void setUp() {
@@ -29,7 +28,6 @@ public class BibliotecaTest {
         bookMockArr = new Book[100];
         bookMockArr[0] = bookMock1;
         bookMockArr[1] = bookMock2;
-        movieMock = createMock(Movie.class);
     }
 
     @After
@@ -40,7 +38,6 @@ public class BibliotecaTest {
         bookMock1 = null;
         bookMock2 = null;
         bookMockArr = null;
-        movieMock = null;
     }
 
     @Test
@@ -80,14 +77,5 @@ public class BibliotecaTest {
         biblioteca.setBooks(bookMockArr, 2);
         assertFalse(biblioteca.reserveBook(bookMockArr));
         verify(bookMock1, bookMock2);
-    }
-
-    @Test
-    public void ShouldDisplayListOfMovies() throws IOException {
-        movieMock.display();
-        replay(movieMock);
-        biblioteca.setMovies(new Movie[]{movieMock}, 1);
-        biblioteca.displayAllMovies();
-        verify(movieMock);
     }
 }

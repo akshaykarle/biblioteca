@@ -3,12 +3,12 @@ package com.twu28.biblioteca;
 import java.util.ArrayList;
 
 public class BookCollection {
-    ArrayList<Book> books = new ArrayList<Book>();
+    private ArrayList<Book> books = new ArrayList<Book>();
 
     public void seedBooks() {
-        books.add(new Book(1, "foo", "foo", "foo", false));
-        books.add(new Book(2, "bar", "bar", "bar", false));
-        books.add(new Book(3, "bar", "bar", "bar", true));
+        books.add(new Book(1, "foo", "foo", "foo"));
+        books.add(new Book(2, "bar", "bar", "bar"));
+        books.add(new Book(3, "bar", "bar", "bar"));
     }
 
     public int display() {
@@ -21,12 +21,28 @@ public class BookCollection {
         books = booksList;
     }
 
-    ArrayList<Book> findBooksByName(String name) {
+    public ArrayList<Book> getBooks() {
+        return books;
+    }
+
+    ArrayList<Book> findAllBooksByName(String name) {
         ArrayList<Book> booksFound = new ArrayList<Book>();
         for(Book book : books) {
             if(book.getName().equalsIgnoreCase(name))
                 booksFound.add(book);
         }
         return booksFound;
+    }
+
+    public Book findBookByName(String name) {
+        return findAllBooksByName(name).get(0);
+    }
+
+    public void remove(Book book) {
+        books.remove(book);
+    }
+
+    public void add(Book book) {
+        books.add(book);
     }
 }

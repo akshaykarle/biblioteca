@@ -10,10 +10,9 @@ import java.util.ArrayList;
 import static junit.framework.Assert.assertEquals;
 import static org.easymock.EasyMock.*;
 import static org.easymock.EasyMock.expect;
-import static org.junit.Assert.assertArrayEquals;
 
 public class BookCollectionTest {
-    private Book bookMock1,bookMock2;
+    private Book bookMock1, bookMock2;
     private BookCollection bookCollection;
     private ArrayList<Book> booksList;
 
@@ -51,7 +50,19 @@ public class BookCollectionTest {
         booksList.add(bookMock1);
         booksList.add(bookMock2);
         bookCollection.setBooks(booksList);
-        assertEquals(booksList, bookCollection.findBooksByName("foo"));
+        assertEquals(booksList, bookCollection.findAllBooksByName("foo"));
+        verify(bookMock1, bookMock2);
+    }
+
+    @Test
+    public void ShouldFindAndReturnTheFirstMatchedBook() {
+        expect(bookMock1.getName()).andReturn("foo");
+        expect(bookMock2.getName()).andReturn("foo");
+        replay(bookMock1, bookMock2);
+        booksList.add(bookMock1);
+        booksList.add(bookMock2);
+        bookCollection.setBooks(booksList);
+        assertEquals(bookMock1, bookCollection.findBookByName("foo"));
         verify(bookMock1, bookMock2);
     }
 }

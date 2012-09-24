@@ -63,4 +63,11 @@ public class UserTest {
         assertFalse(user.authenticate("xyz"));
     }
 
+    @Test
+    public void checkOutBookShouldAddBookToCollection() {
+        Book book = new Book(1, "foo", "bar", "example");
+        user.checkOutBook(book);
+        assertEquals(book, user.books.getBooks().get(0));
+    }
+
 }

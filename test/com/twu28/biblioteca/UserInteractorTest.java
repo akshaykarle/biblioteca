@@ -65,24 +65,24 @@ public class UserInteractorTest {
     @Test
     public void ShouldDisplaySuccesfulBookReservation() throws IOException {
         String name = "foo";
-        expect(bibliotecaMock.findAndReserveBook(name)).andReturn(true);
+        expect(bibliotecaMock.findAndReserveBook(name, userMock)).andReturn(true);
         replay(bibliotecaMock);
         userInteractor.setBiblioteca(bibliotecaMock);
         inContent = new ByteArrayInputStream(name.getBytes());
         System.setIn(inContent);
-        userInteractor.reserveBookOption();
+        userInteractor.reserveBookOption(userMock);
         assertTrue(outContent.toString().contains("Thank You! Enjoy the book."));
         verify(bibliotecaMock);
     }
 
     @Test
     public void ShouldDisplayFailureOfBookReservation() throws IOException {
-        expect(bibliotecaMock.findAndReserveBook("foo")).andReturn(false);
+        expect(bibliotecaMock.findAndReserveBook("foo", userMock)).andReturn(false);
         replay(bibliotecaMock);
         userInteractor.setBiblioteca(bibliotecaMock);
         inContent = new ByteArrayInputStream("foo".getBytes());
         System.setIn(inContent);
-        userInteractor.reserveBookOption();
+        userInteractor.reserveBookOption(userMock);
         assertTrue(outContent.toString().contains("Sorry we don't have that book yet."));
         verify(bibliotecaMock);
     }

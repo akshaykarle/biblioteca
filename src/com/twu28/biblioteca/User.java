@@ -3,6 +3,7 @@ package com.twu28.biblioteca;
 class User {
     private String userName, password, emailId;
     private long phoneNumber;
+    BookCollection books = new BookCollection();
 
     public void setUserName(String userName) {
         if(validUserNameFormat(userName))
@@ -60,5 +61,9 @@ class User {
         System.out.println("Username:\t" + userName);
         System.out.println("Email ID:\t" + emailId);
         System.out.println("Phone Number:  " + phoneNumber);
+    }
+
+    public void checkOutBook(Book bookFound) {
+        books.add(bookFound);
     }
 }

@@ -1,6 +1,5 @@
 package com.twu28.biblioteca;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 class Biblioteca {
@@ -17,28 +16,24 @@ class Biblioteca {
         books = booksList;
     }
 
-    public int displayAllBooks() {
+    public int displayAllAvailableBooks() {
         return books.display();
     }
 
-    public boolean findAndReserveBook(String name){
-        ArrayList<Book> booksFound;
-        booksFound = books.findBooksByName(name);
-        if(booksFound.size() == 0)
+    public boolean findAndReserveBook(String name, User loggedInUser){
+        Book bookFound;
+        bookFound = books.findBookByName(name);
+        if(bookFound == null)
             return false;
         else {
-            return reserveBook(booksFound);
+            reserveBook(bookFound, loggedInUser);
+            return true;
         }
     }
 
-    boolean reserveBook(ArrayList<Book> booksFound) {
-        for (Book book : booksFound) {
-            if(book != null && book.isNotReserved()) {
-                book.reserve(true);
-                return true;
-            }
-        }
-        return false;
+    void reserveBook(Book bookFound, User loggedInUser) {
+        books.remove(bookFound);
+        loggedInUser.checkOutBook(bookFound);
     }
 
     public int displayAllMovies() {

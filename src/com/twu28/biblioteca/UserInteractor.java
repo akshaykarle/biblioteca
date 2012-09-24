@@ -3,7 +3,6 @@ package com.twu28.biblioteca;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 
 public class UserInteractor {
     Biblioteca biblioteca = new Biblioteca();
@@ -59,7 +58,7 @@ public class UserInteractor {
                 return true;
             }
             else {
-            reserveBookOption();
+            reserveBookOption(loggedInUser);
             return true;
             }
         }
@@ -112,16 +111,16 @@ public class UserInteractor {
 
     private void displayAllBooksOption() {
         System.out.println("\nBiblioteca contains the following books:");
-        int numOfBooksDisplayed = biblioteca.displayAllBooks();
+        int numOfBooksDisplayed = biblioteca.displayAllAvailableBooks();
         if(numOfBooksDisplayed == 0)
             System.out.println("No books present in Biblioteca!!");
     }
 
-    void reserveBookOption() throws IOException {
+    void reserveBookOption(User loggedInUser) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         System.out.print("Enter the name of book: ");
         String name = bufferedReader.readLine();
-        boolean success = biblioteca.findAndReserveBook(name);
+        boolean success = biblioteca.findAndReserveBook(name, loggedInUser);
         if(success)
             System.out.println("Thank You! Enjoy the book.");
         else

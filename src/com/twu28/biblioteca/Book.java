@@ -1,8 +1,10 @@
 package com.twu28.biblioteca;
 
 class Book {
-    private String name, author, publisher;
-    private int id;
+    private final String name;
+    private final String author;
+    private final String publisher;
+    private final int id;
 
     public Book(int identifier, String bookName, String bookAuthor, String bookPublisher) {
         id = identifier;

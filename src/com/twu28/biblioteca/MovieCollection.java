@@ -2,12 +2,12 @@ package com.twu28.biblioteca;
 
 import java.util.ArrayList;
 
-public class MovieCollection {
+class MovieCollection {
     public void setMovies(ArrayList<Movie> movies) {
         this.movies = movies;
     }
 
-    ArrayList<Movie> movies = new ArrayList<Movie>();
+    private ArrayList<Movie> movies = new ArrayList<Movie>();
 
     public void seedMovies() {
         for(int i = 0; i < 15; i++) {

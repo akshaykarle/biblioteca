@@ -3,7 +3,7 @@ package com.twu28.biblioteca;
 class User {
     private String userName, password, emailId;
     private long phoneNumber;
-    BookCollection books = new BookCollection();
+    final BookCollection books = new BookCollection();
 
     public void setUserName(String userName) {
         if(validUserNameFormat(userName))
@@ -16,8 +16,8 @@ class User {
         return userName.matches("\\d\\d\\d-\\d\\d\\d\\d");
     }
 
-    public void setPassword(String userpassword) {
-        password = userpassword;
+    void setPassword(String userPassword) {
+        password = userPassword;
     }
 
     public String getEmailId() {
@@ -42,9 +42,9 @@ class User {
             System.out.println("Please enter Valid Phone Number.");
     }
 
-    public User(String name, String userpassword, String emailAddress, long contactNumber) {
+    public User(String name, String userPassword, String emailAddress, long contactNumber) {
         this.setUserName(name);
-        this.setPassword(userpassword);
+        this.setPassword(userPassword);
         this.setEmailId(emailAddress);
         this.setPhoneNumber(contactNumber);
     }

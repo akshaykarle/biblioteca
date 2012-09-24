@@ -1,15 +1,12 @@
 package com.twu28.biblioteca;
 
-import java.util.ArrayList;
-
 class Biblioteca {
     private BookCollection books = new BookCollection();
-    private MovieCollection movies = new MovieCollection();
+    private final MovieCollection movies = new MovieCollection();
 
-    public Biblioteca seedData() {
+    public void seedData() {
         books.seedBooks();
         movies.seedMovies();
-        return this;
     }
 
     public void setBooks(BookCollection booksList) {

@@ -2,8 +2,8 @@ package com.twu28.biblioteca;
 
 import java.util.ArrayList;
 
-public class UserCollection {
-    ArrayList<User> appUsers = new ArrayList<User>();
+class UserCollection {
+    private ArrayList<User> appUsers = new ArrayList<User>();
 
     public void seedUsers() {
         for(int i = 0; i < 3; i++) {

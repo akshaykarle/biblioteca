@@ -2,7 +2,7 @@ package com.twu28.biblioteca;
 
 import java.util.ArrayList;
 
-public class BookCollection {
+class BookCollection {
     private ArrayList<Book> books = new ArrayList<Book>();
 
     public void seedBooks() {

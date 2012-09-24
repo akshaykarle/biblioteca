@@ -14,7 +14,7 @@ import static org.easymock.EasyMock.createMock;
 public class UserCollectionTest {
     private User userMock;
     private UserCollection userCollectionMock;
-    ArrayList<User> users;
+    private ArrayList<User> users;
 
     @Before
     public void setUp() {

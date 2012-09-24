@@ -1,8 +1,10 @@
 package com.twu28.biblioteca;
 
-public class Movie {
-    private String name, director;
-    private int rating, releaseYear;
+class Movie {
+    private final String name;
+    private final String director;
+    private int rating;
+    private final int releaseYear;
 
     public String getName() {
         return name;

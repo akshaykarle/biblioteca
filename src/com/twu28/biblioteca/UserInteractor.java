@@ -4,9 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class UserInteractor {
-    Biblioteca biblioteca = new Biblioteca();
-    UserCollection users = new UserCollection();
+class UserInteractor {
+    private Biblioteca biblioteca = new Biblioteca();
+    private UserCollection users = new UserCollection();
     User loggedInUser;
 
     public void setBiblioteca(Biblioteca library) {
@@ -47,39 +47,38 @@ public class UserInteractor {
         }while(true);
     }
 
-    boolean selectOption(int option) throws IOException{
+    void selectOption(int option) throws IOException{
         if(option == 1) {
             displayAllBooksOption();
-            return true;
+            return;
         }
         if(option == 2) {
             if(loggedInUser == null) {
                 System.out.println("User Authentication failed. Please login before viewing this option.");
-                return true;
+                return;
             }
             else {
             reserveBookOption(loggedInUser);
-            return true;
+                return;
             }
         }
         if(option == 3) {
             checkCardNumberOption();
-            return true;
+            return;
         }
         if(option == 4) {
             displayAllMoviesOption();
-            return true;
+            return;
         }
         if(option == 5) {
             loggedInUser = loginOption();
-            return true;
+            return;
         }
         if(option == 6) {
             System.out.print("Bye!");
             System.exit(0);
         }
         System.out.println("Select a valid option!!");
-        return false;
     }
 
     private User loginOption() throws IOException {

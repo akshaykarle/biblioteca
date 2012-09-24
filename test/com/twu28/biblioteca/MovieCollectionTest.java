@@ -1,5 +1,6 @@
 package com.twu28.biblioteca;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -21,6 +22,13 @@ public class MovieCollectionTest {
         movieMock = createMock(Movie.class);
         movies = new MovieCollection();
         moviesList = new ArrayList<Movie>();
+    }
+
+    @After
+    public void cleanUp() {
+        movieMock = null;
+        movies = null;
+        moviesList = null;
     }
 
     @Test

@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-class UserInteractor {
+class UserInteraction {
     private Biblioteca biblioteca = new Biblioteca();
     private UserCollection users = new UserCollection();
     User loggedInUser;
@@ -119,7 +119,7 @@ class UserInteractor {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         System.out.print("Enter the name of book: ");
         String name = bufferedReader.readLine();
-        boolean success = biblioteca.findAndReserveBook(name, loggedInUser);
+        boolean success = biblioteca.librarian.findAndReserveBook(name, loggedInUser, biblioteca.getBooks());
         if(success)
             System.out.println("Thank You! Enjoy the book.");
         else

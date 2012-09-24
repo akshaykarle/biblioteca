@@ -6,10 +6,9 @@ import org.junit.Test;
 
 import java.io.*;
 
-import static org.easymock.EasyMock.*;
 import static org.junit.Assert.assertTrue;
 
-public class UserInteractorTest {
+public class UserInteractionTest {
     private final String userName = "111-1111";
     private final String password = "abc";
     private final String emailId = "foo@example.com";
@@ -28,7 +27,7 @@ public class UserInteractorTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
     private ByteArrayInputStream inContent;
-    private UserInteractor userInteractor;
+    private UserInteraction userInteraction;
 
     private Biblioteca biblioteca;
     private UserCollection userCollection;
@@ -42,7 +41,7 @@ public class UserInteractorTest {
     public void setUp() {
         System.setOut(new PrintStream(outContent));
         System.setErr(new PrintStream(errContent));
-        userInteractor = new UserInteractor();
+        userInteraction = new UserInteraction();
         biblioteca = new Biblioteca();
         userCollection = new UserCollection();
         bookCollection = new BookCollection();
@@ -57,7 +56,7 @@ public class UserInteractorTest {
         System.setOut(null);
         System.setErr(null);
         biblioteca = null;
-        userInteractor = null;
+        userInteraction = null;
         user = null;
         book = null;
         movie = null;
@@ -68,25 +67,25 @@ public class UserInteractorTest {
 
     @Test
     public void ShouldDisplayWelcome() {
-        userInteractor.displayWelcome();
+        userInteraction.displayWelcome();
         assertTrue(outContent.toString().contains("Welcome to Biblioteca!\n"));
     }
 
     @Test
     public void ShouldDisplayMenu() {
-        userInteractor.displayMenu();
+        userInteraction.displayMenu();
         assertTrue(outContent.toString().contains("Menu"));
     }
 
     @Test
     public void ShouldHandleInvalidOptions() throws IOException {
-        userInteractor.selectOption(-1);
+        userInteraction.selectOption(-1);
         assertTrue(outContent.toString().contains("Select a valid option!!"));
     }
 
     @Test
     public void shouldNotDisplayBooksIfNotPresent() throws IOException {
-        userInteractor.selectOption(1);
+        userInteraction.selectOption(1);
         assertTrue(outContent.toString().contains("No books present in Biblioteca!!"));
     }
 
@@ -94,11 +93,11 @@ public class UserInteractorTest {
     public void ShouldDisplaySuccesfulBookReservation() throws IOException {
         bookCollection.add(book);
         biblioteca.setBooks(bookCollection);
-        userInteractor.setBiblioteca(biblioteca);
+        userInteraction.setBiblioteca(biblioteca);
 
         inContent = new ByteArrayInputStream(bookName.getBytes());
         System.setIn(inContent);
-        userInteractor.reserveBookOption(user);
+        userInteraction.reserveBookOption(user);
         assertTrue(outContent.toString().contains("Thank You! Enjoy the book."));
     }
 
@@ -106,33 +105,33 @@ public class UserInteractorTest {
     public void ShouldDisplayFailureOfBookReservation() throws IOException {
         bookCollection.add(book);
         biblioteca.setBooks(bookCollection);
-        userInteractor.setBiblioteca(biblioteca);
+        userInteraction.setBiblioteca(biblioteca);
 
         inContent = new ByteArrayInputStream("xyz".getBytes());
         System.setIn(inContent);
-        userInteractor.reserveBookOption(user);
+        userInteraction.reserveBookOption(user);
         assertTrue(outContent.toString().contains("Sorry we don't have that book yet."));
     }
 
     @Test
     public void ShouldSendErrorMessageOncheckCardNumberIfUserNotAuthenticated() throws IOException {
-        userInteractor.selectOption(3);
+        userInteraction.selectOption(3);
         assertTrue(outContent.toString().contains("Please talk to Librarian. Thank you."));
     }
 
     @Test
     public void ShouldDisplayUserDetailsIfUserIsLoggedIn() throws IOException {
         userCollection.add(user);
-        userInteractor.setUserCollection(userCollection);
+        userInteraction.setUserCollection(userCollection);
 
-        userInteractor.loggedInUser = user;
-        userInteractor.selectOption(3);
+        userInteraction.loggedInUser = user;
+        userInteraction.selectOption(3);
     }
 
     @Test
     public void ShouldNotDisplayAnyMovies() throws IOException {
-        userInteractor.setBiblioteca(biblioteca);
-        userInteractor.selectOption(4);
+        userInteraction.setBiblioteca(biblioteca);
+        userInteraction.selectOption(4);
         assertTrue(outContent.toString().contains("No movies found!"));
     }
 
@@ -140,33 +139,33 @@ public class UserInteractorTest {
     public void ShouldDisplayAllMovies() throws IOException {
         movieCollection.add(movie);
         biblioteca.setMovies(movieCollection);
-        userInteractor.setBiblioteca(biblioteca);
-        userInteractor.selectOption(4);
+        userInteraction.setBiblioteca(biblioteca);
+        userInteraction.selectOption(4);
         assertTrue(outContent.toString().contains("Movie\t\tYear\tDirector\tRating"));
     }
 
     @Test
     public void ShouldDisplayErrorOnAuthenticationFailure() throws IOException {
-        userInteractor.setUserCollection(userCollection);
+        userInteraction.setUserCollection(userCollection);
         inContent = new ByteArrayInputStream("foo\r\nfoo".getBytes());
         System.setIn(inContent);
-        userInteractor.selectOption(5);
+        userInteraction.selectOption(5);
         assertTrue(outContent.toString().contains("Login failed! Please check your username/password"));
     }
 
     @Test
     public void ShouldDisplaySuccessOnAuthenticationOfValidUser() throws IOException {
         userCollection.add(user);
-        userInteractor.setUserCollection(userCollection);
+        userInteraction.setUserCollection(userCollection);
         inContent = new ByteArrayInputStream((userName + "\r\n" + password).getBytes());
         System.setIn(inContent);
-        userInteractor.selectOption(5);
+        userInteraction.selectOption(5);
         assertTrue(outContent.toString().contains("Authentication successful"));
     }
 
     @Test
     public void UserShouldBeLoggedInBeforeReservingBook() throws IOException {
-        userInteractor.selectOption(2);
+        userInteraction.selectOption(2);
         assertTrue(outContent.toString().contains("Please login before viewing this option"));
     }
 }

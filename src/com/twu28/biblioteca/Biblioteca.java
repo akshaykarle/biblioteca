@@ -2,7 +2,7 @@ package com.twu28.biblioteca;
 
 class Biblioteca {
     private BookCollection books = new BookCollection();
-    private final MovieCollection movies = new MovieCollection();
+    private MovieCollection movies = new MovieCollection();
 
     public void seedData() {
         books.seedBooks();
@@ -11,6 +11,10 @@ class Biblioteca {
 
     public void setBooks(BookCollection booksList) {
         books = booksList;
+    }
+
+    public void setMovies(MovieCollection movies) {
+        this.movies = movies;
     }
 
     public int displayAllAvailableBooks() {
@@ -28,7 +32,7 @@ class Biblioteca {
         }
     }
 
-    void reserveBook(Book bookFound, User loggedInUser) {
+    private void reserveBook(Book bookFound, User loggedInUser) {
         books.remove(bookFound);
         loggedInUser.checkOutBook(bookFound);
     }

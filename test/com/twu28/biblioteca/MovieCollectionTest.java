@@ -13,32 +13,29 @@ import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 
 public class MovieCollectionTest {
-    private Movie movieMock;
+    private final String movieName = "foo";
+    private final String director = "bar";
+    private final int year = 1990;
+    private final int rating = 8;
+
+    private Movie movie;
     private MovieCollection movies;
-    private ArrayList<Movie> moviesList;
 
     @Before
     public void setUp() {
-        movieMock = createMock(Movie.class);
+        movie = new Movie(movieName, director, year, rating);
         movies = new MovieCollection();
-        moviesList = new ArrayList<Movie>();
     }
 
     @After
     public void cleanUp() {
-        movieMock = null;
+        movie = null;
         movies = null;
-        moviesList = null;
     }
 
     @Test
     public void ShouldDisplayListOfMoviesInCollection() throws IOException {
-        movieMock.display();
-        replay(movieMock);
-
-        moviesList.add(movieMock);
-        movies.setMovies(moviesList);
-        assertEquals(moviesList.size(), movies.display());
-        verify(movieMock);
+        movies.add(movie);
+        assertEquals(1, movies.display());
     }
 }

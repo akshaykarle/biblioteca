@@ -12,57 +12,51 @@ import static org.easymock.EasyMock.*;
 import static org.easymock.EasyMock.expect;
 
 public class BookCollectionTest {
-    private Book bookMock1, bookMock2;
+    private final int id = 1;
+    private final String name = "foo";
+    private final String author = "bar";
+    private final String publisher = "blah";
+
+    private Book book1, book2;
     private BookCollection bookCollection;
     private ArrayList<Book> booksList;
 
     @Before
     public void setUp() {
-        bookMock1 = createMock(Book.class);
-        bookMock2 = createMock(Book.class);
+        book1 = new Book(id, name, author, publisher);
+        book2 = new Book(id + 1, name, author, publisher);
         bookCollection = new BookCollection();
         booksList = new ArrayList<Book>();
     }
 
     @After
     public void cleanUp() {
-        bookMock1 = null;
-        bookMock2 = null;
+        book1 = null;
+        book2 = null;
         bookCollection = null;
         booksList = null;
     }
 
     @Test
     public void ShouldDisplayListOfBooks() throws IOException {
-        bookMock1.display();
-        replay(bookMock1);
-        booksList.add(bookMock1);
+        booksList.add(book1);
         bookCollection.setBooks(booksList);
         assertEquals(booksList.size(), bookCollection.display());
-        verify(bookMock1);
     }
 
     @Test
     public void ShouldFindTheCorrectBooks() {
-        expect(bookMock1.getName()).andReturn("foo");
-        expect(bookMock2.getName()).andReturn("foo");
-        replay(bookMock1, bookMock2);
-        booksList.add(bookMock1);
-        booksList.add(bookMock2);
+        booksList.add(book1);
+        booksList.add(book2);
         bookCollection.setBooks(booksList);
         assertEquals(booksList, bookCollection.findAllBooksByName("foo"));
-        verify(bookMock1, bookMock2);
     }
 
     @Test
     public void ShouldFindAndReturnTheFirstMatchedBook() {
-        expect(bookMock1.getName()).andReturn("foo");
-        expect(bookMock2.getName()).andReturn("foo");
-        replay(bookMock1, bookMock2);
-        booksList.add(bookMock1);
-        booksList.add(bookMock2);
+        booksList.add(book1);
+        booksList.add(book2);
         bookCollection.setBooks(booksList);
-        assertEquals(bookMock1, bookCollection.findBookByName("foo"));
-        verify(bookMock1, bookMock2);
+        assertEquals(book1, bookCollection.findBookByName("foo"));
     }
 }

@@ -35,7 +35,11 @@ class BookCollection {
     }
 
     public Book findBookByName(String name) {
-        return findAllBooksByName(name).get(0);
+        ArrayList<Book> booksFound = findAllBooksByName(name);
+        if(booksFound.size() > 0)
+            return booksFound.get(0);
+        else
+            return null;
     }
 
     public void remove(Book book) {

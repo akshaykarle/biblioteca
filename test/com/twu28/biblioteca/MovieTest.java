@@ -24,7 +24,6 @@ public class MovieTest {
     @After
     public void cleanUp() {
         System.setOut(null);
-        System.setErr(null);
         movie = null;
     }
 

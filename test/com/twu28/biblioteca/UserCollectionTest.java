@@ -5,49 +5,41 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 import static junit.framework.Assert.assertEquals;
 import static org.easymock.EasyMock.*;
 import static org.easymock.EasyMock.createMock;
 
 public class UserCollectionTest {
-    private User userMock;
-    private UserCollection userCollectionMock;
-    private ArrayList<User> users;
+    private final String userName = "111-1111";
+    private final String password = "abc";
+    private final String emailId = "foo@example.com";
+    private final Long phoneNumber = 1234567890L;
+
+    private User user;
+    private UserCollection userCollection;
 
     @Before
     public void setUp() {
-        userMock = createMock(User.class);
-        userCollectionMock = new UserCollection();
-        users = new ArrayList<User>();
+        user = new User(userName, password, emailId, phoneNumber);
+        userCollection = new UserCollection();
     }
 
     @After
     public void cleanUp() {
-        userMock = null;
-        userCollectionMock = null;
-        users = null;
+        user = null;
+        userCollection = null;
     }
 
     @Test
     public void ShouldFindUserByName() {
-        expect(userMock.getUserName()).andReturn("foo");
-        replay(userMock);
-        users.add(userMock);
-        userCollectionMock.setAppUsers(users);
-        assertEquals(userMock, userCollectionMock.findUserByName("foo"));
-        verify(userMock);
+        userCollection.add(user);
+        assertEquals(user, userCollection.findUserByName(userName));
     }
 
     @Test
     public void FindAndAuthenticateUserShouldReturnCorrectUser() {
-        expect(userMock.getUserName()).andReturn("foo");
-        expect(userMock.authenticate("foo")).andReturn(true);
-        replay(userMock);
-        users.add(userMock);
-        userCollectionMock.setAppUsers(users);
-        assertEquals(userMock, userCollectionMock.findAndAuthenticateUser("foo", "foo"));
-        verify(userMock);
+        userCollection.add(user);
+        assertEquals(user, userCollection.findAndAuthenticateUser(userName, password));
     }
 }

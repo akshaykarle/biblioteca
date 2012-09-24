@@ -33,4 +33,8 @@ class UserCollection {
             return user;
         return null;
     }
+
+    public void add(User user) {
+        appUsers.add(user);
+    }
 }

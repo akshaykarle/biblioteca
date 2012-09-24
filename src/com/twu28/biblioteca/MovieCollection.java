@@ -27,4 +27,8 @@ class MovieCollection {
         }
         return movies.size();
     }
+
+    public void add(Movie movie) {
+        movies.add(movie);
+    }
 }

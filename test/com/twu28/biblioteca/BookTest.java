@@ -10,13 +10,11 @@ import java.io.PrintStream;
 
 public class BookTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
     private Book book;
 
     @Before
     public void setUp() {
         System.setOut(new PrintStream(outContent));
-        System.setErr(new PrintStream(errContent));
         book = new Book(1, "foo", "foo", "foo");
     }
 

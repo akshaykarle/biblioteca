@@ -10,60 +10,50 @@ import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
 public class BibliotecaTest {
+    private final int id = 1;
+    private final String bookName = "foo";
+    private final String author = "bar";
+    private final String publisher = "blah";
+
+    private final String userName = "111-1111";
+    private final String password = "abc";
+    private final String emailId = "foo@example.com";
+    private final Long phoneNumber = 1234567890L;
+
     private Biblioteca biblioteca;
-    private BookCollection bookCollectionMock;
-    private Book bookMock;
-    private User userMock;
+    private BookCollection bookCollection;
+    private Book book;
+    private User user;
 
     @Before
     public void setUp() {
         biblioteca = new Biblioteca();
-        bookCollectionMock = createMock(BookCollection.class);
-        bookMock = createMock(Book.class);
-        userMock = createMock(User.class);
+        bookCollection = new BookCollection();
+        book = new Book(id, bookName, author, publisher);
+        user = new User(userName, password, emailId, phoneNumber);
     }
 
     @After
     public void cleanUp() {
         biblioteca = null;
-        bookCollectionMock = null;
-        userMock = null;
+        bookCollection = null;
+        book = null;
+        user = null;
     }
 
     @Test
     public void ShouldFindBookInCollectionAndFailWhenNoBooksFound() {
-        expect(bookCollectionMock.findBookByName("foo")).andReturn(null);
-        replay(bookCollectionMock);
-        biblioteca.setBooks(bookCollectionMock);
-        assertFalse(biblioteca.findAndReserveBook("foo", userMock));
-        verify(bookCollectionMock);
+        bookCollection.add(book);
+        biblioteca.setBooks(bookCollection);
+        assertFalse(biblioteca.findAndReserveBook("xyz", user));
     }
 
     @Test
-    public void ShouldFindBookInCollectionAndRemoveIt() {
-        expect(bookCollectionMock.findBookByName("foo")).andReturn(bookMock);
-        bookCollectionMock.remove(bookMock);
-        replay(bookCollectionMock);
-        biblioteca.setBooks(bookCollectionMock);
-        assertTrue(biblioteca.findAndReserveBook("foo", userMock));
-        verify(bookCollectionMock);
-    }
-
-    @Test
-    public void ReserveBookShouldRemoveBookFromItsCollection() throws IOException {
-        bookCollectionMock.remove(bookMock);
-        replay(bookCollectionMock);
-        biblioteca.setBooks(bookCollectionMock);
-        biblioteca.reserveBook(bookMock, userMock);
-        verify(bookCollectionMock);
-    }
-
-    @Test
-    public void ReserveBookShouldAddBookToUser() {
-        userMock.checkOutBook(bookMock);
-        replay(userMock);
-        biblioteca.setBooks(bookCollectionMock);
-        biblioteca.reserveBook(bookMock, userMock);
-        verify(userMock);
+    public void ShouldFindBookInCollectionRemoveItFromCollectionAndAddToUser() {
+        bookCollection.add(book);
+        biblioteca.setBooks(bookCollection);
+        assertTrue(biblioteca.findAndReserveBook(bookName, user));
+        assertEquals(0, bookCollection.getBooks().size());
+        assertNotNull(user.books.getBooks());
     }
 }

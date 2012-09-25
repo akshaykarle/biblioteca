@@ -9,7 +9,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
 import static org.easymock.EasyMock.createMock;
-import static org.easymock.EasyMock.replay;
 
 public class MovieTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -23,7 +22,6 @@ public class MovieTest {
 
     @After
     public void cleanUp() {
-        System.setOut(null);
         movie = null;
     }
 
@@ -35,17 +33,17 @@ public class MovieTest {
 
     @Test
     public void ShouldDisplayAllFields() {
-        movie.display();
-        assertTrue(outContent.toString().contains(movie.getName()));
-        assertTrue(outContent.toString().contains(movie.getDirector()));
-        assertTrue(outContent.toString().contains(String.valueOf(movie.getReleaseYear())));
-        assertTrue(outContent.toString().contains(String.valueOf(movie.getRating())));
+        String displayData = movie.getDisplayData();
+        displayData.contains(movie.getName());
+        displayData.contains(movie.getDirector());
+        displayData.contains(String.valueOf(movie.getReleaseYear()));
+        displayData.contains(String.valueOf(movie.getRating()));
     }
 
     @Test
     public void ShouldDisplayNAForUnsetRating() {
         movie.setRating(0);
-        movie.display();
-        assertTrue(outContent.toString().contains("N/A"));
+        String displayData = movie.getDisplayData();
+        displayData.contains("N/A");
     }
 }

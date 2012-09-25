@@ -21,7 +21,6 @@ public class UserTest {
 
     @After
     public void cleanUp() {
-        System.setOut(null);
         user = null;
     }
 
@@ -52,10 +51,10 @@ public class UserTest {
 
     @Test
     public void shouldDisplayAllFields() {
-        user.display();
-        assertTrue(outContent.toString().contains(user.getUserName()));
-        assertTrue(outContent.toString().contains(user.getEmailId()));
-        assertTrue(outContent.toString().contains(String.valueOf(user.getPhoneNumber())));
+        String displayData = user.getDisplayData();
+        displayData.contains(user.getUserName());
+        displayData.contains(user.getEmailId());
+        displayData.contains(String.valueOf(user.getPhoneNumber()));
     }
 
     @Test

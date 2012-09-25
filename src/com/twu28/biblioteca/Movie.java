@@ -37,11 +37,13 @@ class Movie {
         setRating(movieRating);
     }
 
-    public void display() {
-        System.out.print(name + "\t" + director + "\t" + releaseYear + "\t\t");
+    public String getDisplayData() {
+        String displayData = name + "\t" + director + "\t" + releaseYear + "\t\t";
         if(rating == 0)
-            System.out.println("N/A");
+            displayData += "N/A";
         else
-            System.out.println(rating);
+            displayData += String.valueOf(rating);
+        displayData += "\n";
+        return displayData;
     }
 }

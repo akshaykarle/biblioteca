@@ -51,8 +51,6 @@ public class UserInteractionTest {
 
     @After
     public void cleanUp() {
-        System.setOut(null);
-        System.setErr(null);
         userInteraction = null;
         user = null;
         book = null;
@@ -82,9 +80,21 @@ public class UserInteractionTest {
 
     @Test
     public void shouldNotDisplayBooksIfNotPresent() throws IOException {
-        userInteraction.selectOption(1);
         userInteraction.setBooks(bookCollection);
+        userInteraction.selectOption(1);
         assertTrue(outContent.toString().contains("No books present in Biblioteca!!"));
+    }
+
+    @Test
+    public void shouldDisplayBooksIfPresent() throws IOException {
+        bookCollection.add(book);
+        userInteraction.setBooks(bookCollection);
+
+        userInteraction.selectOption(1);
+        assertTrue(outContent.toString().contains(String.valueOf(id)));
+        assertTrue(outContent.toString().contains(bookName));
+        assertTrue(outContent.toString().contains(author));
+        assertTrue(outContent.toString().contains(publisher));
     }
 
     @Test

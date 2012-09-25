@@ -17,22 +17,8 @@ class Book {
         return name;
     }
 
-    public String getAuthor() {
-        return author;
-    }
-
-    public String getPublisher()  {
-        return publisher;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void display() {
-        System.out.println("\nName: " + name);
-        System.out.println("ID: " +  id);
-        System.out.println("Author: " + author);
-        System.out.println("Publisher: " + publisher);
+    public String getDisplayData() {
+        String displayString = id + "\t" + name + "\t" + author + "\t" + publisher + "\n";
+        return displayString;
     }
 }

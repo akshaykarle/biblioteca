@@ -11,10 +11,11 @@ class BookCollection {
         books.add(new Book(3, "bar", "bar", "bar"));
     }
 
-    public int display() {
+    public String display() {
+        String displayData = new String();
         for(Book book : books)
-            book.display();
-        return books.size();
+            displayData += book.getDisplayData();
+        return displayData;
     }
 
     public void setBooks(ArrayList<Book> booksList) {

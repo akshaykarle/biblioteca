@@ -114,16 +114,22 @@ class UserInteraction {
 
     private void displayAllMoviesOption() {
         System.out.println("Movie\t\tYear\tDirector\tRating");
-        int numOfMovies = movies.display();
-        if(numOfMovies == 0)
+        String displayData = movies.display();
+        if(displayData.equals(""))
             System.out.println("No movies found!");
+        else
+            System.out.println(displayData);
     }
 
     private void displayAllBooksOption() {
         System.out.println("\nBiblioteca contains the following books:");
-        int numOfBooksDisplayed = books.display();
-        if(numOfBooksDisplayed == 0)
+        String displayData = books.display();
+        if(displayData.equals(""))
             System.out.println("No books present in Biblioteca!!");
+        else {
+            System.out.println("ID\tName\tAuthor\tPublisher");
+            System.out.println(displayData);
+        }
     }
 
     void reserveBookOption(User loggedInUser) throws IOException {
@@ -139,7 +145,9 @@ class UserInteraction {
 
     private void checkCardNumberOption() {
         if(loggedInUser != null) {
-            loggedInUser.display();
+            String displayData = loggedInUser.getDisplayData();
+            System.out.println("Username\tEmail ID\t\t\tPhone Number");
+            System.out.println(displayData);
         }
         else
             System.out.println("Please talk to Librarian. Thank you.");

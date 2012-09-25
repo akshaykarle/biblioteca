@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
 import static org.easymock.EasyMock.*;
 import static org.easymock.EasyMock.expect;
 
@@ -41,7 +42,8 @@ public class BookCollectionTest {
     public void ShouldDisplayListOfBooks() throws IOException {
         booksList.add(book1);
         bookCollection.setBooks(booksList);
-        assertEquals(booksList.size(), bookCollection.display());
+        String displayData = bookCollection.display();
+        assertTrue(displayData.contains("1\tfoo\tbar\tblah"));
     }
 
     @Test

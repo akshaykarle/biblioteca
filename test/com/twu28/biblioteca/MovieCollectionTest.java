@@ -36,6 +36,10 @@ public class MovieCollectionTest {
     @Test
     public void ShouldDisplayListOfMoviesInCollection() throws IOException {
         movies.add(movie);
-        assertEquals(1, movies.display());
+        String displayData =  movies.display();
+        displayData.contains(movieName);
+        displayData.contains(director);
+        displayData.contains(String.valueOf(year));
+        displayData.contains(String.valueOf(rating));
     }
 }

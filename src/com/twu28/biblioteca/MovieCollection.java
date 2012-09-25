@@ -17,11 +17,12 @@ class MovieCollection {
         }
     }
 
-    public int display() {
+    public String display() {
+        String displayData = new String();
         for(Movie movie : movies) {
-            movie.display();
+            displayData += movie.getDisplayData();
         }
-        return movies.size();
+        return displayData;
     }
 
     public void add(Movie movie) {

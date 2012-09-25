@@ -57,10 +57,9 @@ class User {
         return password.equals(passwordToValidate);
     }
 
-    public void display() {
-        System.out.println("Username:\t" + userName);
-        System.out.println("Email ID:\t" + emailId);
-        System.out.println("Phone Number:  " + phoneNumber);
+    public String getDisplayData() {
+        String displayData = userName + "\t" + emailId + "\t" + phoneNumber + "\n";
+        return displayData;
     }
 
     public void checkOutBook(Book bookFound) {

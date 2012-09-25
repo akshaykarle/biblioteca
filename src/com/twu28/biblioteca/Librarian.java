@@ -1,6 +1,6 @@
 package com.twu28.biblioteca;
 
-public class Librarian {
+class Librarian {
     public boolean findAndReserveBook(String name, User loggedInUser, BookCollection books){
         Book bookFound;
         bookFound = books.findBookByName(name);

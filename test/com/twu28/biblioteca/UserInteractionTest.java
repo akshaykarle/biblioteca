@@ -88,7 +88,7 @@ public class UserInteractionTest {
     }
 
     @Test
-    public void ShouldDisplaySuccesfulBookReservation() throws IOException {
+    public void ShouldDisplaySuccessfulBookReservation() throws IOException {
         bookCollection.add(book);
         userInteraction.setBooks(bookCollection);
 

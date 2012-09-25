@@ -3,11 +3,7 @@ package com.twu28.biblioteca;
 import java.util.ArrayList;
 
 class MovieCollection {
-    public void setMovies(ArrayList<Movie> movies) {
-        this.movies = movies;
-    }
-
-    private ArrayList<Movie> movies = new ArrayList<Movie>();
+    private final ArrayList<Movie> movies = new ArrayList<Movie>();
 
     public void seedMovies() {
         for(int i = 0; i < 15; i++) {

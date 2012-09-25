@@ -3,7 +3,7 @@ package com.twu28.biblioteca;
 import java.util.ArrayList;
 
 class UserCollection {
-    private ArrayList<User> appUsers = new ArrayList<User>();
+    private final ArrayList<User> appUsers = new ArrayList<User>();
 
     public void seedUsers() {
         for(int i = 0; i < 3; i++) {
@@ -13,10 +13,6 @@ class UserCollection {
             long contactNumber = 1234567890L;
             appUsers.add(new User(name, password, emailId, contactNumber));
         }
-    }
-
-    public void setAppUsers(ArrayList<User> validUsers) {
-        appUsers = validUsers;
     }
 
     User findUserByName(String username) {

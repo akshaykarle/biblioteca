@@ -9,7 +9,7 @@ class UserInteraction {
     User loggedInUser;
     private BookCollection books = new BookCollection();
     private MovieCollection movies = new MovieCollection();
-    Librarian librarian = new Librarian();
+    private final Librarian librarian = new Librarian();
 
     public void setBooks(BookCollection booksList) {
         books = booksList;
@@ -17,10 +17,6 @@ class UserInteraction {
 
     public BookCollection getBooks() {
         return books;
-    }
-
-    public MovieCollection getMovies() {
-        return movies;
     }
 
     public void setMovies(MovieCollection movies) {
@@ -35,14 +31,6 @@ class UserInteraction {
         books.seedBooks();
         movies.seedMovies();
         users.seedUsers();
-    }
-
-    public int displayAllMovies(MovieCollection movies) {
-        return movies.display();
-    }
-
-    public int displayAllAvailableBooks(BookCollection books) {
-        return books.display();
     }
 
     public void displayMenu() {
@@ -126,14 +114,14 @@ class UserInteraction {
 
     private void displayAllMoviesOption() {
         System.out.println("Movie\t\tYear\tDirector\tRating");
-        int numOfMovies = displayAllMovies(getMovies());
+        int numOfMovies = movies.display();
         if(numOfMovies == 0)
             System.out.println("No movies found!");
     }
 
     private void displayAllBooksOption() {
         System.out.println("\nBiblioteca contains the following books:");
-        int numOfBooksDisplayed = displayAllAvailableBooks(getBooks());
+        int numOfBooksDisplayed = books.display();
         if(numOfBooksDisplayed == 0)
             System.out.println("No books present in Biblioteca!!");
     }

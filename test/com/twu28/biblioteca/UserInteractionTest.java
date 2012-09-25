@@ -29,7 +29,6 @@ public class UserInteractionTest {
     private ByteArrayInputStream inContent;
     private UserInteraction userInteraction;
 
-    private Biblioteca biblioteca;
     private UserCollection userCollection;
     private BookCollection bookCollection;
     private MovieCollection movieCollection;
@@ -42,7 +41,6 @@ public class UserInteractionTest {
         System.setOut(new PrintStream(outContent));
         System.setErr(new PrintStream(errContent));
         userInteraction = new UserInteraction();
-        biblioteca = new Biblioteca();
         userCollection = new UserCollection();
         bookCollection = new BookCollection();
         movieCollection = new MovieCollection();
@@ -55,7 +53,6 @@ public class UserInteractionTest {
     public void cleanUp() {
         System.setOut(null);
         System.setErr(null);
-        biblioteca = null;
         userInteraction = null;
         user = null;
         book = null;
@@ -86,14 +83,14 @@ public class UserInteractionTest {
     @Test
     public void shouldNotDisplayBooksIfNotPresent() throws IOException {
         userInteraction.selectOption(1);
+        userInteraction.setBooks(bookCollection);
         assertTrue(outContent.toString().contains("No books present in Biblioteca!!"));
     }
 
     @Test
     public void ShouldDisplaySuccesfulBookReservation() throws IOException {
         bookCollection.add(book);
-        biblioteca.setBooks(bookCollection);
-        userInteraction.setBiblioteca(biblioteca);
+        userInteraction.setBooks(bookCollection);
 
         inContent = new ByteArrayInputStream(bookName.getBytes());
         System.setIn(inContent);
@@ -104,8 +101,7 @@ public class UserInteractionTest {
     @Test
     public void ShouldDisplayFailureOfBookReservation() throws IOException {
         bookCollection.add(book);
-        biblioteca.setBooks(bookCollection);
-        userInteraction.setBiblioteca(biblioteca);
+        userInteraction.setBooks(bookCollection);
 
         inContent = new ByteArrayInputStream("xyz".getBytes());
         System.setIn(inContent);
@@ -130,7 +126,7 @@ public class UserInteractionTest {
 
     @Test
     public void ShouldNotDisplayAnyMovies() throws IOException {
-        userInteraction.setBiblioteca(biblioteca);
+        userInteraction.setMovies(movieCollection);
         userInteraction.selectOption(4);
         assertTrue(outContent.toString().contains("No movies found!"));
     }
@@ -138,8 +134,7 @@ public class UserInteractionTest {
     @Test
     public void ShouldDisplayAllMovies() throws IOException {
         movieCollection.add(movie);
-        biblioteca.setMovies(movieCollection);
-        userInteraction.setBiblioteca(biblioteca);
+        userInteraction.setMovies(movieCollection);
         userInteraction.selectOption(4);
         assertTrue(outContent.toString().contains("Movie\t\tYear\tDirector\tRating"));
     }

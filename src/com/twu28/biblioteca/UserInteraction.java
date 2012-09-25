@@ -5,12 +5,26 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 class UserInteraction {
-    private Biblioteca biblioteca = new Biblioteca();
     private UserCollection users = new UserCollection();
     User loggedInUser;
+    private BookCollection books = new BookCollection();
+    private MovieCollection movies = new MovieCollection();
+    Librarian librarian = new Librarian();
 
-    public void setBiblioteca(Biblioteca library) {
-        biblioteca = library;
+    public void setBooks(BookCollection booksList) {
+        books = booksList;
+    }
+
+    public BookCollection getBooks() {
+        return books;
+    }
+
+    public MovieCollection getMovies() {
+        return movies;
+    }
+
+    public void setMovies(MovieCollection movies) {
+        this.movies = movies;
     }
 
     public void setUserCollection(UserCollection newUsers) {
@@ -18,8 +32,17 @@ class UserInteraction {
     }
 
     public void seedData() {
+        books.seedBooks();
+        movies.seedMovies();
         users.seedUsers();
-        biblioteca.seedData();
+    }
+
+    public int displayAllMovies(MovieCollection movies) {
+        return movies.display();
+    }
+
+    public int displayAllAvailableBooks(BookCollection books) {
+        return books.display();
     }
 
     public void displayMenu() {
@@ -103,14 +126,14 @@ class UserInteraction {
 
     private void displayAllMoviesOption() {
         System.out.println("Movie\t\tYear\tDirector\tRating");
-        int numOfMovies = biblioteca.displayAllMovies();
+        int numOfMovies = displayAllMovies(getMovies());
         if(numOfMovies == 0)
             System.out.println("No movies found!");
     }
 
     private void displayAllBooksOption() {
         System.out.println("\nBiblioteca contains the following books:");
-        int numOfBooksDisplayed = biblioteca.displayAllAvailableBooks();
+        int numOfBooksDisplayed = displayAllAvailableBooks(getBooks());
         if(numOfBooksDisplayed == 0)
             System.out.println("No books present in Biblioteca!!");
     }
@@ -119,7 +142,7 @@ class UserInteraction {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         System.out.print("Enter the name of book: ");
         String name = bufferedReader.readLine();
-        boolean success = biblioteca.librarian.findAndReserveBook(name, loggedInUser, biblioteca.getBooks());
+        boolean success = librarian.findAndReserveBook(name, loggedInUser, getBooks());
         if(success)
             System.out.println("Thank You! Enjoy the book.");
         else

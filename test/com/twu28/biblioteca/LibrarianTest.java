@@ -4,12 +4,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
-
-import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
-public class BibliotecaTest {
+public class LibrarianTest {
     private final int id = 1;
     private final String bookName = "foo";
     private final String author = "bar";
@@ -20,39 +17,41 @@ public class BibliotecaTest {
     private final String emailId = "foo@example.com";
     private final Long phoneNumber = 1234567890L;
 
-    private Biblioteca biblioteca;
-    private BookCollection bookCollection;
     private Book book;
+    private BookCollection bookCollection;
+    private UserInteraction userInteraction;
     private User user;
+    private Librarian librarian;
 
     @Before
     public void setUp() {
-        biblioteca = new Biblioteca();
-        bookCollection = new BookCollection();
         book = new Book(id, bookName, author, publisher);
+        bookCollection = new BookCollection();
+        userInteraction = new UserInteraction();
         user = new User(userName, password, emailId, phoneNumber);
+        librarian = new Librarian();
     }
 
     @After
-    public void cleanUp() {
-        biblioteca = null;
-        bookCollection = null;
+    public void tearDown() {
         book = null;
+        bookCollection = null;
         user = null;
+        librarian = null;
     }
 
     @Test
     public void ShouldFindBookInCollectionAndFailWhenNoBooksFound() {
         bookCollection.add(book);
-        biblioteca.setBooks(bookCollection);
-        assertFalse(biblioteca.findAndReserveBook("xyz", user));
+        userInteraction.setBooks(bookCollection);
+        assertFalse(librarian.findAndReserveBook("xyz", user, userInteraction.getBooks()));
     }
 
     @Test
     public void ShouldFindBookInCollectionRemoveItFromCollectionAndAddToUser() {
         bookCollection.add(book);
-        biblioteca.setBooks(bookCollection);
-        assertTrue(biblioteca.findAndReserveBook(bookName, user));
+        userInteraction.setBooks(bookCollection);
+        assertTrue(librarian.findAndReserveBook(bookName, user, userInteraction.getBooks()));
         assertEquals(0, bookCollection.getBooks().size());
         assertNotNull(user.books.getBooks());
     }

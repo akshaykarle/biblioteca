@@ -1,5 +1,7 @@
 package com.twu28.biblioteca;
 
+import java.security.InvalidParameterException;
+
 class User {
     private String userName, password, emailId;
     private long phoneNumber;
@@ -9,7 +11,7 @@ class User {
         if(validUserNameFormat(userName))
             this.userName = userName;
         else
-            System.out.println("Please enter Valid UserName");
+            throw new InvalidParameterException("Invalid username");
     }
 
     private boolean validUserNameFormat(String userName) {
@@ -28,7 +30,7 @@ class User {
         if(emailId.matches("\\w+\\@\\w+\\.\\w+"))
             this.emailId = emailId;
         else
-            System.out.println("Please enter Valid Email ID.");
+            throw new InvalidParameterException("Invalid email ID");
     }
 
     public long getPhoneNumber() {
@@ -39,7 +41,7 @@ class User {
         if(phoneNumber >= 1000000000L && phoneNumber <= 9999999999L)
             this.phoneNumber = phoneNumber;
         else
-            System.out.println("Please enter Valid Phone Number.");
+            throw new InvalidParameterException("Invalid Phone Number");
     }
 
     public User(String name, String userPassword, String emailAddress, long contactNumber) {

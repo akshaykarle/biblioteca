@@ -13,33 +13,25 @@ import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 
 public class MovieCollectionTest {
-    private final String movieName = "foo";
-    private final String director = "bar";
-    private final int year = 1990;
-    private final int rating = 8;
-
-    private Movie movie;
-    private MovieCollection movies;
+    private static final Factory factory = new Factory();
 
     @Before
     public void setUp() {
-        movie = new Movie(movieName, director, year, rating);
-        movies = new MovieCollection();
+        factory.setUp();
     }
 
     @After
     public void cleanUp() {
-        movie = null;
-        movies = null;
+        factory.cleanUp();
     }
 
     @Test
     public void ShouldDisplayListOfMoviesInCollection() throws IOException {
-        movies.add(movie);
-        String displayData =  movies.display();
-        displayData.contains(movieName);
-        displayData.contains(director);
-        displayData.contains(String.valueOf(year));
-        displayData.contains(String.valueOf(rating));
+        factory.movieCollection.add(factory.movie);
+        String displayData =  factory.movieCollection.display();
+        displayData.contains(factory.movieName);
+        displayData.contains(factory.director);
+        displayData.contains(String.valueOf(factory.year));
+        displayData.contains(String.valueOf(factory.rating));
     }
 }

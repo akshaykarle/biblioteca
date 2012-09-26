@@ -8,65 +8,79 @@ import static org.junit.Assert.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.security.InvalidParameterException;
 
 public class UserTest {
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private User user;
+    private static final Factory factory = new Factory();
 
     @Before
     public void setUp() {
-        System.setOut(new PrintStream(outContent));
-        user = new User("111-1111", "abc", "foo@bar.com", 1234567890L);
+        factory.setUp();
     }
 
     @After
     public void cleanUp() {
-        user = null;
+        factory.cleanUp();
     }
 
     @Test
     public void shouldRaiseErrorOnSettingInvalidUserName() {
-        user.setUserName("foo");
-        assertTrue(outContent.toString().contains("Please enter Valid UserName"));
+        boolean thrown = false;
+        try{
+            factory.user.setUserName("foo");
+        } catch (InvalidParameterException e) {
+            thrown = true;
+        }
+
+        assertTrue(thrown);
     }
 
     @Test
     public void shouldRaiseErrorOnSettingInvalidEmailID() {
-        user.setEmailId("foo.bar");
-        assertTrue(outContent.toString().contains("Please enter Valid Email"));
+        boolean thrown = false;
+        try{
+            factory.user.setEmailId("foo.bar");
+        } catch (InvalidParameterException e) {
+            thrown = true;
+        }
+        assertTrue(thrown);
     }
 
     @Test
     public void shouldRaiseErrorOnSettingInvalidPhoneNumber() {
-        user.setPhoneNumber(12345L);
-        assertTrue(outContent.toString().contains("Please enter Valid Phone Number"));
+        boolean thrown = false;
+        try{
+            factory.user.setPhoneNumber(12345L);
+        } catch (InvalidParameterException e) {
+            thrown = true;
+        }
+        assertTrue(thrown);
     }
 
     @Test
     public void shouldSetCorrectUserName() {
         String name = "999-9999";
-        user.setUserName(name);
-        assertEquals(name, user.getUserName());
+        factory.user.setUserName(name);
+        assertEquals(name, factory.user.getUserName());
     }
 
     @Test
     public void shouldDisplayAllFields() {
-        String displayData = user.getDisplayData();
-        displayData.contains(user.getUserName());
-        displayData.contains(user.getEmailId());
-        displayData.contains(String.valueOf(user.getPhoneNumber()));
+        String displayData = factory.user.getDisplayData();
+        displayData.contains(factory.user.getUserName());
+        displayData.contains(factory.user.getEmailId());
+        displayData.contains(String.valueOf(factory.user.getPhoneNumber()));
     }
 
     @Test
     public void shouldInvalidateIncorrectPassword() {
-        assertFalse(user.authenticate("xyz"));
+        assertFalse(factory.user.authenticate("xyz"));
     }
 
     @Test
     public void checkOutBookShouldAddBookToCollection() {
-        Book book = new Book(1, "foo", "bar", "example");
-        user.checkOutBook(book);
-        assertEquals(book, user.books.getBooks().get(0));
+        factory.user.checkOutBook(factory.book);
+        assertEquals(factory.book, factory.user.books.getBooks().get(0));
     }
 
 }

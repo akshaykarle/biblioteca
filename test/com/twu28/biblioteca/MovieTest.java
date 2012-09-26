@@ -11,39 +11,37 @@ import java.io.PrintStream;
 import static org.easymock.EasyMock.createMock;
 
 public class MovieTest {
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private Movie movie;
+    private static final Factory factory = new Factory();
 
     @Before
     public void setUp() {
-        System.setOut(new PrintStream(outContent));
-        movie = new Movie("foo", "bar", 1990, 1);
+        factory.setUp();
     }
 
     @After
     public void cleanUp() {
-        movie = null;
+        factory.cleanUp();
     }
 
     @Test
     public void ShouldDisplayErrorOnInvalidMovieRating() {
-        movie.setRating(11);
-        assertTrue(outContent.toString().contains("Invalid Rating!"));
+        factory.movie.setRating(11);
+        assertTrue(factory.outContent.toString().contains("Invalid Rating!"));
     }
 
     @Test
     public void ShouldDisplayAllFields() {
-        String displayData = movie.getDisplayData();
-        displayData.contains(movie.getName());
-        displayData.contains(movie.getDirector());
-        displayData.contains(String.valueOf(movie.getReleaseYear()));
-        displayData.contains(String.valueOf(movie.getRating()));
+        String displayData = factory.movie.getDisplayData();
+        displayData.contains(factory.movie.getName());
+        displayData.contains(factory.movie.getDirector());
+        displayData.contains(String.valueOf(factory.movie.getReleaseYear()));
+        displayData.contains(String.valueOf(factory.movie.getRating()));
     }
 
     @Test
     public void ShouldDisplayNAForUnsetRating() {
-        movie.setRating(0);
-        String displayData = movie.getDisplayData();
+        factory.movie.setRating(0);
+        String displayData = factory.movie.getDisplayData();
         displayData.contains("N/A");
     }
 }

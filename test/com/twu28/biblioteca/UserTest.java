@@ -6,28 +6,26 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.security.InvalidParameterException;
 
 public class UserTest {
-    private static final Factory factory = new Factory();
+    private static final CommonTestData commonTestData = new CommonTestData();
 
     @Before
     public void setUp() {
-        factory.setUp();
+        commonTestData.setUp();
     }
 
     @After
     public void cleanUp() {
-        factory.cleanUp();
+        commonTestData.cleanUp();
     }
 
     @Test
     public void shouldRaiseErrorOnSettingInvalidUserName() {
         boolean thrown = false;
         try{
-            factory.user.setUserName("foo");
+            commonTestData.user.setUserName("foo");
         } catch (InvalidParameterException e) {
             thrown = true;
         }
@@ -39,7 +37,7 @@ public class UserTest {
     public void shouldRaiseErrorOnSettingInvalidEmailID() {
         boolean thrown = false;
         try{
-            factory.user.setEmailId("foo.bar");
+            commonTestData.user.setEmailId("foo.bar");
         } catch (InvalidParameterException e) {
             thrown = true;
         }
@@ -50,7 +48,7 @@ public class UserTest {
     public void shouldRaiseErrorOnSettingInvalidPhoneNumber() {
         boolean thrown = false;
         try{
-            factory.user.setPhoneNumber(12345L);
+            commonTestData.user.setPhoneNumber(12345L);
         } catch (InvalidParameterException e) {
             thrown = true;
         }
@@ -60,27 +58,27 @@ public class UserTest {
     @Test
     public void shouldSetCorrectUserName() {
         String name = "999-9999";
-        factory.user.setUserName(name);
-        assertEquals(name, factory.user.getUserName());
+        commonTestData.user.setUserName(name);
+        assertEquals(name, commonTestData.user.getUserName());
     }
 
     @Test
     public void shouldDisplayAllFields() {
-        String displayData = factory.user.getDisplayData();
-        displayData.contains(factory.user.getUserName());
-        displayData.contains(factory.user.getEmailId());
-        displayData.contains(String.valueOf(factory.user.getPhoneNumber()));
+        String displayData = commonTestData.user.getDisplayData();
+        displayData.contains(commonTestData.user.getUserName());
+        displayData.contains(commonTestData.user.getEmailId());
+        displayData.contains(String.valueOf(commonTestData.user.getPhoneNumber()));
     }
 
     @Test
     public void shouldInvalidateIncorrectPassword() {
-        assertFalse(factory.user.authenticate("xyz"));
+        assertFalse(commonTestData.user.authenticate("xyz"));
     }
 
     @Test
     public void checkOutBookShouldAddBookToCollection() {
-        factory.user.checkOutBook(factory.book);
-        assertEquals(factory.book, factory.user.books.getBooks().get(0));
+        commonTestData.user.checkOutBook(commonTestData.book);
+        assertEquals(commonTestData.book, commonTestData.user.books.getBooks().get(0));
     }
 
 }

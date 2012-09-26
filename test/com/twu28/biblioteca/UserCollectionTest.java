@@ -4,34 +4,31 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-
 import static junit.framework.Assert.assertEquals;
-import static org.easymock.EasyMock.*;
 import static org.easymock.EasyMock.createMock;
 
 public class UserCollectionTest {
-    private static final Factory factory = new Factory();
+    private static final CommonTestData commonTestData = new CommonTestData();
 
     @Before
     public void setUp() {
-        factory.setUp();
+        commonTestData.setUp();
     }
 
     @After
     public void cleanUp() {
-        factory.cleanUp();
+        commonTestData.cleanUp();
     }
 
     @Test
     public void ShouldFindUserByName() {
-        factory.userCollection.add(factory.user);
-        assertEquals(factory.user, factory.userCollection.findUserByName(factory.userName));
+        commonTestData.userCollection.add(commonTestData.user);
+        assertEquals(commonTestData.user, commonTestData.userCollection.findUserByName(commonTestData.userName));
     }
 
     @Test
     public void FindAndAuthenticateUserShouldReturnCorrectUser() {
-        factory.userCollection.add(factory.user);
-        assertEquals(factory.user, factory.userCollection.findAndAuthenticateUser(factory.userName, factory.password));
+        commonTestData.userCollection.add(commonTestData.user);
+        assertEquals(commonTestData.user, commonTestData.userCollection.findAndAuthenticateUser(commonTestData.userName, commonTestData.password));
     }
 }

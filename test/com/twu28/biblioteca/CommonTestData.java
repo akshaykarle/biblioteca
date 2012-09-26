@@ -4,7 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-class Factory {
+class CommonTestData {
 
     final String userName = "111-1111";
     final String password = "abc";

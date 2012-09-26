@@ -7,34 +7,34 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class LibrarianTest {
-    private static final Factory factory = new Factory();
+    private static final CommonTestData commonTestData = new CommonTestData();
     private Librarian librarian;
 
     @Before
     public void setUp() {
-        factory.setUp();
+        commonTestData.setUp();
         librarian = new Librarian();
     }
 
     @After
     public void tearDown() {
-        factory.cleanUp();
+        commonTestData.cleanUp();
         librarian = null;
     }
 
     @Test
     public void ShouldFindBookInCollectionAndFailWhenNoBooksFound() {
-        factory.bookCollection.add(factory.book);
-        factory.userInteraction.setBooks(factory.bookCollection);
-        assertFalse(librarian.findAndReserveBook("xyz", factory.user, factory.userInteraction.getBooks()));
+        commonTestData.bookCollection.add(commonTestData.book);
+        commonTestData.userInteraction.setBooks(commonTestData.bookCollection);
+        assertFalse(librarian.findAndReserveBook("xyz", commonTestData.user, commonTestData.userInteraction.getBooks()));
     }
 
     @Test
     public void ShouldFindBookInCollectionRemoveItFromCollectionAndAddToUser() {
-        factory.bookCollection.add(factory.book);
-        factory.userInteraction.setBooks(factory.bookCollection);
-        assertTrue(librarian.findAndReserveBook(factory.bookName, factory.user, factory.userInteraction.getBooks()));
-        assertEquals(0, factory.bookCollection.getBooks().size());
-        assertNotNull(factory.user.books.getBooks());
+        commonTestData.bookCollection.add(commonTestData.book);
+        commonTestData.userInteraction.setBooks(commonTestData.bookCollection);
+        assertTrue(librarian.findAndReserveBook(commonTestData.bookName, commonTestData.user, commonTestData.userInteraction.getBooks()));
+        assertEquals(0, commonTestData.bookCollection.getBooks().size());
+        assertNotNull(commonTestData.user.books.getBooks());
     }
 }

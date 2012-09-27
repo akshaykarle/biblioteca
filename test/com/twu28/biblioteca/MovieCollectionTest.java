@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 
+import static junit.framework.Assert.assertTrue;
 import static org.easymock.EasyMock.createMock;
 
 public class MovieCollectionTest {
@@ -23,11 +24,14 @@ public class MovieCollectionTest {
 
     @Test
     public void ShouldDisplayListOfMoviesInCollection() throws IOException {
+        //arrange
         commonTestData.movieCollection.add(commonTestData.movie);
+        //act
         String displayData =  commonTestData.movieCollection.display();
-        displayData.contains(commonTestData.movieName);
-        displayData.contains(commonTestData.director);
-        displayData.contains(String.valueOf(commonTestData.year));
-        displayData.contains(String.valueOf(commonTestData.rating));
+        //asserts
+        assertTrue(displayData.contains(commonTestData.movieName));
+        assertTrue(displayData.contains(commonTestData.director));
+        assertTrue(displayData.contains(String.valueOf(commonTestData.year)));
+        assertTrue(displayData.contains(String.valueOf(commonTestData.rating)));
     }
 }

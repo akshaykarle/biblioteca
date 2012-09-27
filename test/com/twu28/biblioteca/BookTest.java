@@ -4,12 +4,14 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import static junit.framework.Assert.assertTrue;
+
 public class BookTest {
     private static final CommonTestData commonTestData = new CommonTestData();
 
     @Before
     public void setUp() {
-        commonTestData.setUp();
+        commonTestData.setUp(); //arrange
     }
 
     @After
@@ -19,10 +21,11 @@ public class BookTest {
 
     @Test
     public void ShouldDisplayBookDetails() {
-        String displayData = commonTestData.book.getDisplayData();
-        displayData.contains(String.valueOf(commonTestData.id));
-        displayData.contains(commonTestData.bookName);
-        displayData.contains(commonTestData.author);
-        displayData.contains(commonTestData.publisher);
+        String displayData = commonTestData.book.getDisplayData(); //act
+        //asserts
+        assertTrue(displayData.contains(String.valueOf(commonTestData.id)));
+        assertTrue(displayData.contains(commonTestData.bookName));
+        assertTrue(displayData.contains(commonTestData.author));
+        assertTrue(displayData.contains(commonTestData.publisher));
     }
 }

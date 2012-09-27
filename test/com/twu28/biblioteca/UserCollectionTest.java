@@ -22,13 +22,17 @@ public class UserCollectionTest {
 
     @Test
     public void ShouldFindUserByName() {
+        //arrange
         commonTestData.userCollection.add(commonTestData.user);
+        //act and assert
         assertEquals(commonTestData.user, commonTestData.userCollection.findUserByName(commonTestData.userName));
     }
 
     @Test
     public void FindAndAuthenticateUserShouldReturnCorrectUser() {
+        //arrange
         commonTestData.userCollection.add(commonTestData.user);
+        //act and assert
         assertEquals(commonTestData.user, commonTestData.userCollection.findAndAuthenticateUser(commonTestData.userName, commonTestData.password));
     }
 }

@@ -3,6 +3,8 @@ package com.twu28.biblioteca;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.*;
 
 import static org.easymock.EasyMock.createMock;
@@ -12,6 +14,7 @@ public class MovieTest {
 
     @Before
     public void setUp() {
+        //arrange
         commonTestData.setUp();
     }
 
@@ -22,23 +25,30 @@ public class MovieTest {
 
     @Test
     public void ShouldDisplayErrorOnInvalidMovieRating() {
+        //act
         commonTestData.movie.setRating(11);
+        //assert
         assertTrue(commonTestData.outContent.toString().contains("Invalid Rating!"));
     }
 
     @Test
     public void ShouldDisplayAllFields() {
+        //act
         String displayData = commonTestData.movie.getDisplayData();
-        displayData.contains(commonTestData.movie.getName());
-        displayData.contains(commonTestData.movie.getDirector());
-        displayData.contains(String.valueOf(commonTestData.movie.getReleaseYear()));
-        displayData.contains(String.valueOf(commonTestData.movie.getRating()));
+        //asserts
+        assertTrue(displayData.contains(commonTestData.movie.getName()));
+        assertTrue(displayData.contains(commonTestData.movie.getDirector()));
+        assertTrue(displayData.contains(String.valueOf(commonTestData.movie.getReleaseYear())));
+        assertTrue(displayData.contains(String.valueOf(commonTestData.movie.getRating())));
     }
 
     @Test
     public void ShouldDisplayNAForUnsetRating() {
+        //arrange
         commonTestData.movie.setRating(0);
+        //act
         String displayData = commonTestData.movie.getDisplayData();
-        displayData.contains("N/A");
+        //asserts
+        assertTrue(displayData.contains("N/A"));
     }
 }

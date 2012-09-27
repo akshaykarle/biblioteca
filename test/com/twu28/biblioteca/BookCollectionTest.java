@@ -34,9 +34,12 @@ public class BookCollectionTest {
 
     @Test
     public void ShouldDisplayListOfBooks() throws IOException {
+        //arrange
         booksList.add(book1);
         commonTestData.bookCollection.setBooks(booksList);
+        //act
         String displayData = commonTestData.bookCollection.display();
+        //asserts
         assertTrue(displayData.contains(String.valueOf(commonTestData.id)));
         assertTrue(displayData.contains(String.valueOf(commonTestData.bookName)));
         assertTrue(displayData.contains(String.valueOf(commonTestData.author)));
@@ -45,17 +48,21 @@ public class BookCollectionTest {
 
     @Test
     public void ShouldFindTheCorrectBooks() {
+        //arrange
         booksList.add(book1);
         booksList.add(book2);
         commonTestData.bookCollection.setBooks(booksList);
+        //act and assert
         assertEquals(booksList, commonTestData.bookCollection.findAllBooksByName("foo"));
     }
 
     @Test
     public void ShouldFindAndReturnTheFirstMatchedBook() {
+        //arrange
         booksList.add(book1);
         booksList.add(book2);
         commonTestData.bookCollection.setBooks(booksList);
+        //act and assert
         assertEquals(book1, commonTestData.bookCollection.findBookByName("foo"));
     }
 }

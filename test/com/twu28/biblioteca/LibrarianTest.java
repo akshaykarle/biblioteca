@@ -24,15 +24,19 @@ public class LibrarianTest {
 
     @Test
     public void ShouldFindBookInCollectionAndFailWhenNoBooksFound() {
+        //arrange
         commonTestData.bookCollection.add(commonTestData.book);
         commonTestData.userInteraction.setBooks(commonTestData.bookCollection);
+        //act and assert
         assertFalse(librarian.findAndReserveBook("xyz", commonTestData.user, commonTestData.userInteraction.getBooks()));
     }
 
     @Test
     public void ShouldFindBookInCollectionRemoveItFromCollectionAndAddToUser() {
+        //arrange
         commonTestData.bookCollection.add(commonTestData.book);
         commonTestData.userInteraction.setBooks(commonTestData.bookCollection);
+        //act and asserts
         assertTrue(librarian.findAndReserveBook(commonTestData.bookName, commonTestData.user, commonTestData.userInteraction.getBooks()));
         assertEquals(0, commonTestData.bookCollection.getBooks().size());
         assertNotNull(commonTestData.user.books.getBooks());
